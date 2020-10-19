@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # import db for database management
 
 login_manager = LoginManager()
-from myapp.database import User
+from chirper.database import User
 
 @login_manager.user_loader
 def load_user(user_id):

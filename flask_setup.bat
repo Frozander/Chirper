@@ -1,2 +1,2 @@
-set FLASK_APP=myapp
+set FLASK_APP=chirper
 set FLASK_ENV=development

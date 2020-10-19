@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 
 from . import auth
-from myapp.database import db
+from .database import db
 
 
 def create_app(test_config=None):
