@@ -14,12 +14,13 @@ from .database import db
 def create_app(test_config=None):
     # Create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(app.instance_path, 'app.db'),
-        SQLALCHEMY_MIGRATE_REPO=os.path.join(app.instance_path, 'db_repository'),
-        SQLALCHEMY_TRACK_MODIFICATIONS=False,
-    )
+    
+    if test_config is None:
+        # Load the instance config, if it exists, when not testing
+        app.config.from_object('config', silent=True)
+    else:
+        # Laod the test config if passed in
+        app.config.from_mapping(test_config)
     
     # For CSRF Protection
     csrf = CSRFProtect(app)
@@ -30,13 +31,6 @@ def create_app(test_config=None):
     # Register Blueprints
     auth.login_manager.init_app(app)
     auth.login_manager.login_view = 'auth/login'
-    
-    if test_config is None:
-        # Load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # Laod the test config if passed in
-        app.config.from_mapping(test_config)
     
     # Ensure the instance folder exists
     try:
