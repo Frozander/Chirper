@@ -8,7 +8,7 @@
 
 {% block content %}
 <h1>Hello World!</h1>
-{% if g.user.is_authenticated %}
+{% if g.user and g.user.is_authenticated %}
 Welcome {{ g.user.name }}!
 {% endif %}
 {% endblock %}
