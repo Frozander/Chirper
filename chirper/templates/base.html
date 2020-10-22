@@ -1,11 +1,6 @@
 {% extends "bootstrap/base.html" %}
 {% block title %} This is an example page {% endblock %}
 
-{% block styles %}
-{{ super() }}
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/lux/bootstrap.min.css">
-{% endblock %}
-
 {% block content %}
 <h1>Hello World!</h1>
 {% if g.user and g.user.is_authenticated %}

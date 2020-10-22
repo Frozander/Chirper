@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 login_manager = LoginManager()
 from chirper.database import User
-from chirper.forms import LoginForm
+from chirper.forms import LoginForm, RegisterForm
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -35,3 +35,14 @@ def login():
                            form=login_form)
 
 # TODO: ADD REGISTER ENDPOINT
+@bp.route('/register', methods=['POST', 'GET'])
+def register():
+    # Skip if already logged in
+    if g.user is not None and g.user.is_authenticated:
+        return redirect(url_for('index'))
+    
+    register_form = RegisterForm()
+    
+    return render_template('auth/register.html',
+                           title='Register',
+                           form=register_form)
