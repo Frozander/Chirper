@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 login_manager = LoginManager()
 from chirper.database import User
+from chirper.forms import LoginForm
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -14,8 +15,23 @@ def load_user(user_id):
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@bp.route('/', methods=['GET', 'POST'])
-def auth():
-    return "<h1>Authentication Page</h1>"
+@bp.before_request
+def before_request():
+    g.user = current_user
+
+@bp.route('/login', methods=['POST', 'GET'])
+def login():
+    # Skip if already logged in
+    if g.user is not None and g.user.is_authenticated:
+        return redirect(url_for('index'))
+
+    login_form = LoginForm()
+
+    # if login_form.validate_on_submit():
+    #     flash()
     
-    
+    return render_template('auth/login.html',
+                           title='Sign In',
+                           form=login_form)
+
+# TODO: ADD REGISTER ENDPOINT
