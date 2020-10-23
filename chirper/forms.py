@@ -10,7 +10,7 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember Me', default=False)
 
 class RegisterForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()], 
+    email = StringField('E-Mail', validators=[DataRequired(), Email()], 
                         render_kw={'placeholder': 'Enter E-Mail'})
     password = PasswordField('Password', validators=[DataRequired(), Length(max=80, message="Max password length is 80 characters.")],
                              render_kw={'placeholder': 'Enter Password'})

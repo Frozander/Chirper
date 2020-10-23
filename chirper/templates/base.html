@@ -6,9 +6,13 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='base.css')}}">
 {% endblock %}
 
+{% block navbar %}
+{{ nav.chirper_navbar.render() }}
+{% endblock %}
+
 {% block content %}
 <h1>Hello World!</h1>
-{% if g.user and g.user.is_authenticated %}
-Welcome {{ g.user.name }}!
+{% if current_user.is_authenticated %}
+Welcome {{ current_user.name }}!
 {% endif %}
 {% endblock %}

@@ -8,7 +8,7 @@
 
 {% block content %}
 <div class="container">
-  <form class="form-signin" action="/register" method="post" name="register">
+  <form class="form-signin" action="register" method="post" name="register">
     <h2 class="form-signin-heading">Register</h2>
     {{ form.hidden_tag() }}
     {{ wtf.form_field(form.email) }}

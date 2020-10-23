@@ -22,13 +22,13 @@ def before_request():
 @bp.route('/login', methods=['POST', 'GET'])
 def login():
     # Skip if already logged in
-    if g.user is not None and g.user.is_authenticated:
+    if current_user.is_authenticated:
         return redirect(url_for('index'))
 
     login_form = LoginForm()
 
-    # if login_form.validate_on_submit():
-    #     flash()
+    if login_form.validate_on_submit():
+        return redirect(url_for('index'))
     
     return render_template('auth/login.html',
                            title='Sign In',
@@ -38,10 +38,13 @@ def login():
 @bp.route('/register', methods=['POST', 'GET'])
 def register():
     # Skip if already logged in
-    if g.user is not None and g.user.is_authenticated:
+    if current_user.is_authenticated:
         return redirect(url_for('index'))
     
     register_form = RegisterForm()
+    
+    if register_form.validate_on_submit():
+        return redirect(url_for('auth.login'))
     
     return render_template('auth/register.html',
                            title='Register',

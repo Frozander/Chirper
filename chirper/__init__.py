@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_required
 
 from . import auth
+from .navigation import nav
 from .database import db
 
 
@@ -34,6 +35,8 @@ def create_app(test_config=None):
     bootstrap = Bootstrap(app)
     # Initialize Database from database.py where models are created
     db.init_app(app)
+    # Initialize flask-nav
+    nav.init_app(app)
     # Register Blueprints
     auth.login_manager.init_app(app)
     auth.login_manager.login_view = 'auth/login'
@@ -51,5 +54,7 @@ def create_app(test_config=None):
     @app.route('/')
     def index():
         return render_template('base.html')
+    
+    app.add_url_rule('/index', '/')
     
     return app
