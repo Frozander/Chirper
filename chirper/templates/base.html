@@ -1,6 +1,18 @@
 {% extends "bootstrap/base.html" %}
 {% block title %} This is an example page {% endblock %}
 
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='base.css')}}">
+{% endblock %}
+
+{% block navbar %}
+{{ nav.chirper_navbar.render(renderer='custom') }}
+{% endblock %}
+
 {% block content %}
 <h1>Hello World!</h1>
+{% if current_user.is_authenticated %}
+Welcome {{ current_user.username }}!
+{% endif %}
 {% endblock %}
