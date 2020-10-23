@@ -13,6 +13,6 @@
 {% block content %}
 <h1>Hello World!</h1>
 {% if current_user.is_authenticated %}
-Welcome {{ current_user.name }}!
+Welcome {{ current_user.username }}!
 {% endif %}
 {% endblock %}
