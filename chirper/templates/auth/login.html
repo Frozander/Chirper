@@ -1,12 +1,20 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf%}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='auth/signin.css') }}">
+{% endblock %}
 
 {% block content %}
-  <h1>Sign In</h1>
-  <form action="" method="post" name="login">
-      {{ form.hidden_tag() }}
-      <p>{{ form.email }}</p>
-      <p>{{ form.password }}</p>
-      <p>{{ form.remember_me }} Remember Me</p>
-      <button type="submit" class="btn btn-primary">Sign In</button>
+<div class="container">
+  <form class="form-signin" action="/register" method="post" name="login">
+    <h2 class="form-signin-heading">Sign In</h2>
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.email) }}
+    {{ wtf.form_field(form.password) }}
+    {{ wtf.form_field(form.remember_me) }}
+    <button type="submit" class="btn btn-lg btn-primary btn-block">Sign In</button>
   </form>
+</div>
 {% endblock %}
