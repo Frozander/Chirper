@@ -5,9 +5,10 @@ from flask_bootstrap import Bootstrap
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_required
+from flask_nav import register_renderer
 
 from . import auth
-from .navigation import nav
+from .navigation import nav, CustomRenderer
 from .database import db
 
 
@@ -37,6 +38,7 @@ def create_app(test_config=None):
     db.init_app(app)
     # Initialize flask-nav
     nav.init_app(app)
+    register_renderer(app, 'custom', CustomRenderer)
     # Register Blueprints
     auth.login_manager.init_app(app)
     auth.login_manager.login_view = 'auth/login'

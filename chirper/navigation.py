@@ -1,7 +1,14 @@
 from flask_nav import Nav
+from flask_bootstrap.nav import BootstrapRenderer
 from flask_nav.elements import View, Navbar
-from flask import g
 from flask_login import current_user
+from dominate import tags
+
+class CustomRenderer(BootstrapRenderer):
+    def visit_Navbar(self, node):
+        nav_tag = super(CustomRenderer, self).visit_Navbar(node)
+        nav_tag['class'] += 'navbar navbar-inverse navbar-fixed-top'
+        return nav_tag        
 
 nav = Nav()
 
