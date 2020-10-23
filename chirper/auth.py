@@ -1,4 +1,4 @@
-from flask_login import LoginManager, UserMixin, login_required, logout_user, login_user, current_user 
+from flask_login import LoginManager, UserMixin, login_required, logout_user, login_user, current_user
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -40,7 +40,7 @@ def login():
             next_page = request.args.get('next')
             return redirect(next_page or url_for('index'))
         flash('Invalid E-Mail/Password Combination', category='danger')
-        return redirect(url_for('auth.login'))    
+        return redirect(url_for('auth.login'))
     return render_template('auth/login.html',
                            title='Sign In',
                            form=login_form)
@@ -51,16 +51,16 @@ def register():
     # Skip if already logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    
+
     register_form = RegisterForm()
-    
+
     if register_form.validate_on_submit():
         existing_user = db.session.query(User).filter(
             or_(
                 User.username==register_form.username.data,
                 User.email==register_form.email.data)
             ).first()
-        
+
         if existing_user is None:
             user = User(
                 username=register_form.username.data,
@@ -72,7 +72,7 @@ def register():
             login_user(user)
             return redirect(url_for('index'))
         flash('A user already exists with that E-Mail Address or Username!', category='danger')
-    
+
     return render_template('auth/register.html',
                            title='Register',
                            form=register_form)

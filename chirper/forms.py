@@ -7,7 +7,7 @@ class LoginForm(FlaskForm):
                         validators=[
                             DataRequired(),
                             Email("Enter a valid E-Mail")
-                            ], 
+                            ],
                         render_kw={'placeholder': 'Enter E-Mail'})
     password = PasswordField('Password',
                             validators=[
@@ -29,7 +29,7 @@ class RegisterForm(FlaskForm):
                         validators=[
                             DataRequired(),
                             Email("Enter a valid E-Mail")
-                            ], 
+                            ],
                         render_kw={'placeholder': 'Enter E-Mail'})
     password = PasswordField('Password',
                             validators=[
@@ -38,4 +38,3 @@ class RegisterForm(FlaskForm):
                                 ],
                             render_kw={'placeholder': 'Enter Password'})
     submit = SubmitField('Register')
-    
