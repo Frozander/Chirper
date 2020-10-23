@@ -9,7 +9,6 @@ class LoginForm(FlaskForm):
                              render_kw={'placeholder': 'Enter Password'})
     remember_me = BooleanField('Remember Me', default=False)
 
-# TODO: ADD REGISTER FORM
 class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()], 
                         render_kw={'placeholder': 'Enter E-Mail'})
