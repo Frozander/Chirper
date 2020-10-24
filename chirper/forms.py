@@ -1,9 +1,18 @@
+"""
+Chirper.Forms
+
+Creates WTForms Classes for the various forms (LoginForm, RegisterForm etc.)
+"""
+
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, PasswordField, StringField, SubmitField
 from wtforms.validators import DataRequired, Email, Length
 
 
 class LoginForm(FlaskForm):
+    """
+    LoginForm class to be used in the /auth/login
+    """
     email = StringField('E-Mail',
                         validators=[
                             DataRequired(),
@@ -20,10 +29,14 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In')
 
 class RegisterForm(FlaskForm):
+    """
+    RegisterForm class to be used in the /auth/register
+    """
     username = StringField('Username',
                             validators=[
                                 DataRequired(),
-                                Length(min=3, max=20, message="Username has to be between 3-20 characters long.")
+                                Length(min=3, max=20,
+                                       message="Username has to be between 3-20 characters long.")
                                 ],
                             render_kw={'placeholder': 'Enter Username'})
     email = StringField('E-Mail',

@@ -1,3 +1,8 @@
+"""
+Chirper
+
+Creates the app instance
+"""
 import os
 
 from flask import Flask, render_template
@@ -13,6 +18,13 @@ from .navigation import CustomRenderer, nav
 
 
 def create_app(test_config=None):
+    """
+    create_app(test_config: mapping) -> App
+    Params:
+        test_config: (mapping) Used to configure the app.
+    Returns:
+        App: Created Flask App
+    """
     # Create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -55,6 +67,9 @@ def create_app(test_config=None):
     @login_required
     @app.route('/')
     def index():
+        """
+        Placeholder index
+        """
         return render_template('base.html')
 
     app.add_url_rule('/index', '/')

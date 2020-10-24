@@ -1,3 +1,10 @@
+"""
+Chiper.Auth
+
+This module handles all the requests to 'domainname/auth/*',
+ like 'login', 'register' and 'logout'.
+"""
+
 from flask import (Blueprint, flash, g, redirect, render_template, request, url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
@@ -13,19 +20,41 @@ login_manager = LoginManager()
 
 @login_manager.user_loader
 def load_user(user_id):
+    """
+    load_user(user_id: int) -> User
+    Params:
+        user_id: (int) id of the User that is requested to login
+    Returns:
+        (User) The user that has been logged in. If no user is found returns None
+    """
     return User.query.get(int(user_id))
 
 @login_manager.unauthorized_handler
 def unauthorized():
+    """
+    unauthorized() -> None
+    Registers error message to flash if the client requests to an endpoint that needs authorization.
+    """
     flash('You must be logged in to view that page.', category='danger')
     return redirect(url_for('auth.login'))
 
 @bp.before_request
 def before_request():
+    """
+    before_request() -> None
+    USELESS Since current_user can be directly used in templates
+    Registers current_user to g in the session for templates to use
+    """
     g.user = current_user
 
 @bp.route('/login', methods=['POST', 'GET'])
 def login():
+    """
+    login() -> Template
+    Endpoint: auth/login
+    Handles : POST, GET
+    This function handles requests to the auth/login endpoint.
+    """
     # Skip if already logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -44,9 +73,14 @@ def login():
                            title='Sign In',
                            form=login_form)
 
-# TODO: ADD REGISTER ENDPOINT
 @bp.route('/register', methods=['POST', 'GET'])
 def register():
+    """
+    register() -> Template
+    Endpoint: auth/register
+    Handles : POST, GET
+    This function handles requests to the auth/register endpoint.
+    """
     # Skip if already logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -79,5 +113,11 @@ def register():
 @bp.route('/logout')
 @login_required
 def logout():
+    """
+    logout() -> Template
+    Endpoint: auth/logout
+    Handles : POST, GET
+    This function handles requests to the auth/logout endpoint.
+    """
     logout_user()
     return redirect(url_for('auth.login'))

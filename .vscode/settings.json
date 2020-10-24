@@ -1,3 +1,12 @@
 {
-    "python.pythonPath": "c:\\Users\\SMG\\Documents\\python\\flask\\app\\venv\\Scripts\\python.exe"
+    "python.pythonPath": "c:\\Users\\SMG\\Documents\\python\\flask\\app\\venv\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintUseMinimalCheckers": false,
+    "python.linting.pylintArgs": [
+    "--load-plugins",
+    "pylint_flask_sqlalchemy, pylint_flask",
+    "--init-hook",
+    "import sys; sys.path.insert(0, '/path/to/root/of/current/project')"
+    ]
 }
