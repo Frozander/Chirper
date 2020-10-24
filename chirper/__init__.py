@@ -3,6 +3,7 @@ Chirper
 
 Creates the app instance
 """
+
 import os
 
 from flask import Flask, render_template
@@ -25,14 +26,17 @@ def create_app(test_config=None):
     Returns:
         App: Created Flask App
     """
+
     # Create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(app.instance_path, 'app.db'),
-        SQLALCHEMY_MIGRATE_REPO=os.path.join(app.instance_path, 'db_repository'),
+        SQLALCHEMY_DATABASE_URI='sqlite:///' +
+        os.path.join(app.instance_path, 'app.db'),
+        SQLALCHEMY_MIGRATE_REPO=os.path.join(
+            app.instance_path, 'db_repository'),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        WTF_CSRF_ENABLED = True
+        WTF_CSRF_ENABLED=True
     )
 
     if test_config is None:
@@ -70,6 +74,7 @@ def create_app(test_config=None):
         """
         Placeholder index
         """
+
         return render_template('base.html')
 
     app.add_url_rule('/index', '/')

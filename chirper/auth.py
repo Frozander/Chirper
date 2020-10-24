@@ -5,7 +5,8 @@ This module handles all the requests to 'domainname/auth/*',
  like 'login', 'register' and 'logout'.
 """
 
-from flask import (Blueprint, flash, g, redirect, render_template, request, url_for)
+from flask import (Blueprint, flash, g, redirect,
+                   render_template, request, url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
 # import db for database management
@@ -18,6 +19,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 login_manager = LoginManager()
 
+
 @login_manager.user_loader
 def load_user(user_id):
     """
@@ -27,7 +29,9 @@ def load_user(user_id):
     Returns:
         (User) The user that has been logged in. If no user is found returns None
     """
+
     return User.query.get(int(user_id))
+
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -35,8 +39,10 @@ def unauthorized():
     unauthorized() -> None
     Registers error message to flash if the client requests to an endpoint that needs authorization.
     """
+
     flash('You must be logged in to view that page.', category='danger')
     return redirect(url_for('auth.login'))
+
 
 @bp.before_request
 def before_request():
@@ -45,7 +51,9 @@ def before_request():
     USELESS Since current_user can be directly used in templates
     Registers current_user to g in the session for templates to use
     """
+
     g.user = current_user
+
 
 @bp.route('/login', methods=['POST', 'GET'])
 def login():
@@ -55,6 +63,7 @@ def login():
     Handles : POST, GET
     This function handles requests to the auth/login endpoint.
     """
+
     # Skip if already logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -73,6 +82,7 @@ def login():
                            title='Sign In',
                            form=login_form)
 
+
 @bp.route('/register', methods=['POST', 'GET'])
 def register():
     """
@@ -81,6 +91,7 @@ def register():
     Handles : POST, GET
     This function handles requests to the auth/register endpoint.
     """
+
     # Skip if already logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -90,9 +101,9 @@ def register():
     if register_form.validate_on_submit():
         existing_user = db.session.query(User).filter(
             or_(
-                User.username==register_form.username.data,
-                User.email==register_form.email.data)
-            ).first()
+                User.username == register_form.username.data,
+                User.email == register_form.email.data)
+        ).first()
 
         if existing_user is None:
             user = User(
@@ -104,11 +115,13 @@ def register():
             db.session.commit()
             login_user(user)
             return redirect(url_for('index'))
-        flash('A user already exists with that E-Mail Address or Username!', category='danger')
+        flash('A user already exists with that E-Mail Address or Username!',
+              category='danger')
 
     return render_template('auth/register.html',
                            title='Register',
                            form=register_form)
+
 
 @bp.route('/logout')
 @login_required
@@ -119,5 +132,6 @@ def logout():
     Handles : POST, GET
     This function handles requests to the auth/logout endpoint.
     """
+
     logout_user()
     return redirect(url_for('auth.login'))
