@@ -2,14 +2,14 @@ import os
 
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-from flask_wtf.csrf import CSRFProtect
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_required
 from flask_nav import register_renderer
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
 
 from . import auth
-from .navigation import nav, CustomRenderer
 from .database import db
+from .navigation import CustomRenderer, nav
 
 
 def create_app(test_config=None):

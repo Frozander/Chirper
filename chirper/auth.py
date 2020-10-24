@@ -1,16 +1,17 @@
-from flask_login import LoginManager, UserMixin, login_required, logout_user, login_user, current_user
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
-)
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask import (Blueprint, flash, g, redirect, render_template, request,
+                   session, url_for)
+from flask_login import (LoginManager, UserMixin, current_user, login_required,
+                         login_user, logout_user)
 # import db for database management
 from sqlalchemy import or_
+from werkzeug.security import check_password_hash, generate_password_hash
 
-login_manager = LoginManager()
 from chirper.database import User, db
 from chirper.forms import LoginForm, RegisterForm
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+login_manager = LoginManager()
 
 @login_manager.user_loader
 def load_user(user_id):
