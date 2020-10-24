@@ -1,4 +1,3 @@
-from dominate import tags
 from flask_bootstrap.nav import BootstrapRenderer
 from flask_login import current_user
 from flask_nav import Nav

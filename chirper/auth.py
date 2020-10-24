@@ -1,10 +1,8 @@
-from flask import (Blueprint, flash, g, redirect, render_template, request,
-                   session, url_for)
-from flask_login import (LoginManager, UserMixin, current_user, login_required,
+from flask import (Blueprint, flash, g, redirect, render_template, request, url_for)
+from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
 # import db for database management
 from sqlalchemy import or_
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from chirper.database import User, db
 from chirper.forms import LoginForm, RegisterForm
