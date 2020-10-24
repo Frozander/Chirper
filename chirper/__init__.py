@@ -64,8 +64,8 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
 
     # TEMP
-    @login_required
     @app.route('/')
+    @login_required
     def index():
         """
         Placeholder index
