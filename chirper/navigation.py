@@ -30,12 +30,15 @@ def create_navbar():
     create_navbar() -> Navbar
     Creates a Navbar according to the user
     """
-
     home_view = View('Chirper', 'index')
+    views = [home_view]
     if current_user.is_authenticated:
-        logout_view = View('Logout', 'auth.logout')  # index is placeholder
-        return Navbar('Chirper', home_view, logout_view)
+        logout_view = View('Logout', 'auth.logout')
+        views.append(logout_view)
     else:
         login_view = View('Log In', 'auth.login')
         register_view = View('Register', 'auth.register')
-        return Navbar(home_view, login_view, register_view)
+        views.append(register_view)
+        views.append(login_view)
+
+    return Navbar(*views)
