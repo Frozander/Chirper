@@ -36,6 +36,7 @@ def create_navbar():
     create_navbar() -> Navbar
     Creates a Navbar according to the user
     """
+
     views = [home_view]
     if current_user.is_authenticated:
         views.append(logout_view)
