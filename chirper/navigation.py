@@ -23,6 +23,12 @@ class CustomRenderer(BootstrapRenderer):
 
 nav = Nav()
 
+# Views
+home_view = View('Chirper', 'index')
+login_view = View('Log In', 'auth.login')
+register_view = View('Register', 'auth.register')
+logout_view = View('Logout', 'auth.logout')
+
 
 @nav.navigation('chirper_navbar')
 def create_navbar():
@@ -30,14 +36,10 @@ def create_navbar():
     create_navbar() -> Navbar
     Creates a Navbar according to the user
     """
-    home_view = View('Chirper', 'index')
     views = [home_view]
     if current_user.is_authenticated:
-        logout_view = View('Logout', 'auth.logout')
         views.append(logout_view)
     else:
-        login_view = View('Log In', 'auth.login')
-        register_view = View('Register', 'auth.register')
         views.append(register_view)
         views.append(login_view)
 
