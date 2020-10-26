@@ -11,11 +11,21 @@ from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, UserMixin, login_required
 from flask_nav import register_renderer
 from flask_sqlalchemy import SQLAlchemy
+from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 
 from . import auth
 from .database import db
 from .navigation import CustomRenderer, nav
+
+# Content Security Policy
+# Allows using Cloudflare CDN to get Bootstrap
+csp = {
+    'default-src': [
+        '\'self\'',
+        'cdnjs.cloudflare.com'
+    ]
+}
 
 
 def create_app(test_config=None):
@@ -48,6 +58,8 @@ def create_app(test_config=None):
 
     # For CSRF Protection
     csrf = CSRFProtect(app)
+    # For Header Security
+    talisman = Talisman(app, content_security_policy=csp)
     # Bootstrap Wrapper
     bootstrap = Bootstrap(app)
     # Initialize Database from database.py where models are created
