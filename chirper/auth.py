@@ -36,7 +36,7 @@ def load_user(user_id):
 @login_manager.unauthorized_handler
 def unauthorized():
     """
-    unauthorized() -> None
+    unauthorized() -> Response
     Registers error message to flash if the client requests to an endpoint that needs authorization.
     """
 
