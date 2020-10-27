@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block header %}
+<h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
 {% block styles %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='auth/signin.css') }}">
@@ -10,15 +14,16 @@
 <div class="container">
 
   {% with messages = get_flashed_messages(with_categories=true) %}
-    <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
-    {% if messages %}
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <!-- <strong>Title</strong> --> {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
+  <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+    <!-- <strong>Title</strong> --> {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
   {% endwith %}
 
   <form class="form-signin" action="register" method="post" name="register">
