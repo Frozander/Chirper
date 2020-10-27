@@ -8,7 +8,7 @@ from chirper.auth import login_required
 from chirper.database import db, Post
 from chirper.forms import PostForm
 
-bp = Blueprint('blog', __name__)
+bp = Blueprint('posts', __name__, url_prefix='/posts')
 
 
 @bp.route('/create', methods=['GET', 'POST'])
@@ -30,4 +30,5 @@ def create():
         db.session.commit()
         return redirect(url_for('index'))
 
-    return render_template('posts/create.html')
+    return render_template('posts/create.html',
+                           form=post_form)
