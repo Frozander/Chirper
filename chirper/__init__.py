@@ -14,7 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 
-from . import auth
+from . import auth, posts
 from .database import db
 from .navigation import CustomRenderer, nav
 
@@ -67,7 +67,7 @@ def create_app(test_config=None):
     # Initialize flask-nav
     nav.init_app(app)
     register_renderer(app, 'custom', CustomRenderer)
-    # Register Blueprints
+    # Set-up login_manager
     auth.login_manager.init_app(app)
     auth.login_manager.login_view = 'auth/login'
 
@@ -77,7 +77,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # Register Blueprints
     app.register_blueprint(auth.bp)
+    app.register_blueprint(posts.bp)
 
     # TEMP
     @app.route('/')
