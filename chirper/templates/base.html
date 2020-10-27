@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
-<title>Chirper | {% block title %}{% endblock %}</title>
+{% block title %}Chirper | {{ current_user.username }}{% endblock %}
 
 {% block styles %}
 {{ super() }}
