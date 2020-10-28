@@ -89,7 +89,7 @@ def create_app(test_config=None):
     @app.route('/', methods=['GET', 'POST'])
     @login_required
     def index():
-        post_list = posts.Post.query.all()
+        post_list = posts.Post.query.order_by(posts.Post.created.desc()).all()
 
         return render_template('base.html', posts=post_list)
 
