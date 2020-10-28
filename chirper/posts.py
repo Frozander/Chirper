@@ -11,6 +11,18 @@ from chirper.forms import PostForm
 bp = Blueprint('posts', __name__, url_prefix='/posts')
 
 
+def get_one_post(id, check_author=True):
+    post = Post.query.get(int(id))
+
+    if post is None:
+        abort(404, f'Post id {id} does not exist.')
+
+    if check_author and post.author_id != current_user.id:
+        abort(403)
+
+    return post
+
+
 @bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
@@ -32,3 +44,21 @@ def create():
 
     return render_template('posts/create.html',
                            form=post_form)
+
+
+@bp.route('/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+    post = get_one_post(id)
+    post_form = PostForm()
+
+    if post_form.validate_on_submit():
+        post.title = post_form.title.data
+        post.body = post_form.body.data
+
+        db.session.commit()
+        return redirect(url_for('index'))
+    else:
+        post_form.title.data = post.title
+        post_form.body.data = post.body
+        return render_template('posts/edit.html', form=post_form)
