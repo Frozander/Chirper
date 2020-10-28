@@ -86,14 +86,12 @@ def create_app(test_config=None):
     app.register_blueprint(posts.bp)
 
     # TEMP
-    @app.route('/')
+    @app.route('/', methods=['GET', 'POST'])
     @login_required
     def index():
-        """
-        Placeholder index
-        """
+        post_list = posts.Post.query.all()
 
-        return render_template('base.html')
+        return render_template('base.html', posts=post_list)
 
     app.add_url_rule('/index', '/')
 

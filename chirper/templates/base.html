@@ -12,8 +12,22 @@
 {% endblock %}
 
 {% block content %}
-<h1>Hello World!</h1>
-{% if current_user.is_authenticated %}
-Welcome {{ current_user.username }}!
-{% endif %}
+<div class="container">
+    {% for post in posts %}
+    <article class="post">
+        <header>
+            <div>
+                <h1>{{ post.title }}</h1>
+            </div>
+            {% if current_user.id == post.author_id %}
+            <a class="btn btn-info" href="{{ url_for('posts.edit', id=post.id) }}">Edit</a>
+            {% endif %}
+        </header>
+        <p class="body">{{ post.body }}</p>
+    </article>
+    {% if not loop.last %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
 {% endblock %}
