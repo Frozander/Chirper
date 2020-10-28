@@ -85,7 +85,7 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
     app.register_blueprint(posts.bp)
 
-    # TEMP
+    # TODO: Turn this to a infinite scroll using API calls with JSON returns
     @app.route('/', methods=['GET', 'POST'])
     @login_required
     def index():
