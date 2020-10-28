@@ -49,6 +49,10 @@ def create_app(test_config=None):
         WTF_CSRF_ENABLED=True
     )
 
+    # Enable white-space trimming
+    app.jinja_env.trim_blocks = True
+    app.jinja_env.lstrip_blocks = True
+
     if test_config is None:
         # Load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
