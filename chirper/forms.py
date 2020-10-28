@@ -79,3 +79,12 @@ class PostForm(FlaskForm):
                          ],
                          render_kw={'placeholder': 'Share your thoughts...'})
     submit = SubmitField('Post')
+
+
+class DeleteForm(FlaskForm):
+    """
+    DeleteForm class to be used in /posts/<id:int>/delete
+    """
+
+    submit = SubmitField('Delete',
+                         render_kw={'onclick': "return confirm('Are you sure?');"})
