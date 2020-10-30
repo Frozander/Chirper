@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf%}
+{% import "static/js/script.js" as script%}
 
 {% block title %}Chirper | Log In{% endblock %}
 
@@ -25,7 +26,7 @@
   {% endif %}
   {% endwith %}
 
-  <form class="form-signin" action="login" method="post" name="login">
+  <form class="form-signin" method="post" name="login">
     <h2 class="form-signin-heading">Log In</h2>
     {{ form.hidden_tag() }}
     {{ wtf.form_field(form.email) }}
