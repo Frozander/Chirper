@@ -16,3 +16,9 @@
     </form>
 </div>
 {% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script nonce="{{ csp_nonce() }}" type="text/javascript"
+    src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}

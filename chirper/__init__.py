@@ -23,7 +23,13 @@ from .navigation import CustomRenderer, nav
 csp = {
     'default-src': [
         '\'self\'',
-        'cdnjs.cloudflare.com'
+        'cdnjs.cloudflare.com',
+        '\'unsafe-inline\'',
+    ],
+    'script-src': [
+        '\'self\'',
+        'cdnjs.cloudflare.com',
+        '\'unsafe-inline\'',
     ]
 }
 
@@ -63,7 +69,9 @@ def create_app(test_config=None):
     # For CSRF Protection
     csrf = CSRFProtect(app)
     # For Header Security
-    talisman = Talisman(app, content_security_policy=csp)
+    talisman = Talisman(app,
+                        content_security_policy=csp,
+                        )
     # Bootstrap Wrapper
     bootstrap = Bootstrap(app)
     # Initialize Database from database.py where models are created
