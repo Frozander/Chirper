@@ -79,5 +79,4 @@ class PostForm(FlaskForm):
                          ],
                          render_kw={'placeholder': 'Share your thoughts...'})
     submit = SubmitField('Post')
-    delete = SubmitField('Delete',
-                         render_kw={'onclick': "clicked(event)"})
+    delete = SubmitField('Delete')

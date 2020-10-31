@@ -13,6 +13,7 @@ from flask_nav import register_renderer
 from flask_sqlalchemy import SQLAlchemy
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
+from flask_minify import minify
 
 from . import auth, posts
 from .database import db
@@ -24,12 +25,10 @@ csp = {
     'default-src': [
         '\'self\'',
         'cdnjs.cloudflare.com',
-        '\'unsafe-inline\'',
     ],
     'script-src': [
         '\'self\'',
         'cdnjs.cloudflare.com',
-        '\'unsafe-inline\'',
     ]
 }
 
@@ -52,12 +51,12 @@ def create_app(test_config=None):
         SQLALCHEMY_MIGRATE_REPO=os.path.join(
             app.instance_path, 'db_repository'),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        WTF_CSRF_ENABLED=True
+        WTF_CSRF_ENABLED=True,
     )
 
-    # Enable white-space trimming
-    app.jinja_env.trim_blocks = True
-    app.jinja_env.lstrip_blocks = True
+    # Enable white-space trimming (USELESS WITH MINIFY)
+    # app.jinja_env.trim_blocks = True
+    # app.jinja_env.lstrip_blocks = True
 
     if test_config is None:
         # Load the instance config, if it exists, when not testing
@@ -68,9 +67,12 @@ def create_app(test_config=None):
 
     # For CSRF Protection
     csrf = CSRFProtect(app)
+    # Minify HTML, JS, CSS
+    mini = minify(app, caching_limit=0)
     # For Header Security
     talisman = Talisman(app,
                         content_security_policy=csp,
+                        content_security_policy_nonce_in=['script-src']
                         )
     # Bootstrap Wrapper
     bootstrap = Bootstrap(app)
