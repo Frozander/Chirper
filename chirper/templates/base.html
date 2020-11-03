@@ -34,13 +34,14 @@
             <div>
                 <h1>{{ post.title }}</h1>
             </div>
-            {% if current_user.id == post.author_id %}
-            {% endif %}
         </header>
         <p class="body">{{ post.body }}</p>
+        {% if current_user.id == post.author_id %}
         <div class="row-fluid">
             <a class="btn btn-info span4 text-left" href="{{ url_for('posts.edit', id=post.id) }}">Edit</a>
         </div>
+        {% endif %}
+
     </article>
     {% if not loop.last %}
     <hr>
