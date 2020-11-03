@@ -5,7 +5,7 @@ Creates WTForms Classes for the various forms (LoginForm, RegisterForm etc.)
 """
 
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, PasswordField, StringField, SubmitField
+from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -57,3 +57,26 @@ class RegisterForm(FlaskForm):
                              ],
                              render_kw={'placeholder': 'Enter Password'})
     submit = SubmitField('Register')
+
+
+class PostForm(FlaskForm):
+    """
+    RegisterForm class to be used in the /posts/create and /posts/edit
+    """
+
+    title = StringField('Title',
+                        validators=[
+                            DataRequired(),
+                            Length(min=3, max=50,
+                                   message="Title must have 3-50 characters")
+                        ],
+                        render_kw={'placeholder': 'Enter Title'})
+    body = TextAreaField('Message',
+                         validators=[
+                             DataRequired(),
+                             Length(min=3, max=240,
+                                    message="Content must have 3-240 characters")
+                         ],
+                         render_kw={'placeholder': 'Share your thoughts...'})
+    submit = SubmitField('Post')
+    delete = SubmitField('Delete')

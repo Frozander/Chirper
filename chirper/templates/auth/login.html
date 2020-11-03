@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf%}
 
-{% block header %}
-<h1>{% block title %}Log In{% endblock %}</h1>
-{% endblock %}
+{% block title %}Chirper | Log In{% endblock %}
+
 
 {% block styles %}
 {{ super() }}
@@ -26,7 +25,7 @@
   {% endif %}
   {% endwith %}
 
-  <form class="form-signin" action="login" method="post" name="login">
+  <form class="form-signin" method="post" name="login">
     <h2 class="form-signin-heading">Log In</h2>
     {{ form.hidden_tag() }}
     {{ wtf.form_field(form.email) }}

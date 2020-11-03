@@ -13,8 +13,9 @@ from flask_nav import register_renderer
 from flask_sqlalchemy import SQLAlchemy
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
+from flask_minify import minify
 
-from . import auth
+from . import auth, posts
 from .database import db
 from .navigation import CustomRenderer, nav
 
@@ -23,7 +24,11 @@ from .navigation import CustomRenderer, nav
 csp = {
     'default-src': [
         '\'self\'',
-        'cdnjs.cloudflare.com'
+        'cdnjs.cloudflare.com',
+    ],
+    'script-src': [
+        '\'self\'',
+        'cdnjs.cloudflare.com',
     ]
 }
 
@@ -46,8 +51,12 @@ def create_app(test_config=None):
         SQLALCHEMY_MIGRATE_REPO=os.path.join(
             app.instance_path, 'db_repository'),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        WTF_CSRF_ENABLED=True
+        WTF_CSRF_ENABLED=True,
     )
+
+    # Enable white-space trimming (USELESS WITH MINIFY)
+    # app.jinja_env.trim_blocks = True
+    # app.jinja_env.lstrip_blocks = True
 
     if test_config is None:
         # Load the instance config, if it exists, when not testing
@@ -58,8 +67,13 @@ def create_app(test_config=None):
 
     # For CSRF Protection
     csrf = CSRFProtect(app)
+    # Minify HTML, JS, CSS
+    mini = minify(app, caching_limit=0)
     # For Header Security
-    talisman = Talisman(app, content_security_policy=csp)
+    talisman = Talisman(app,
+                        content_security_policy=csp,
+                        content_security_policy_nonce_in=['script-src']
+                        )
     # Bootstrap Wrapper
     bootstrap = Bootstrap(app)
     # Initialize Database from database.py where models are created
@@ -67,7 +81,7 @@ def create_app(test_config=None):
     # Initialize flask-nav
     nav.init_app(app)
     register_renderer(app, 'custom', CustomRenderer)
-    # Register Blueprints
+    # Set-up login_manager
     auth.login_manager.init_app(app)
     auth.login_manager.login_view = 'auth/login'
 
@@ -77,17 +91,17 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # Register Blueprints
     app.register_blueprint(auth.bp)
+    app.register_blueprint(posts.bp)
 
-    # TEMP
-    @app.route('/')
+    # TODO: Turn this to a infinite scroll using API calls with JSON returns
+    @app.route('/', methods=['GET', 'POST'])
     @login_required
     def index():
-        """
-        Placeholder index
-        """
+        post_list = posts.Post.query.order_by(posts.Post.created.desc()).all()
 
-        return render_template('base.html')
+        return render_template('base.html', posts=post_list)
 
     app.add_url_rule('/index', '/')
 

@@ -41,7 +41,7 @@ def unauthorized():
     """
 
     flash('You must be logged in to view that page.', category='danger')
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('auth.login', next=request.path))
 
 
 @bp.before_request

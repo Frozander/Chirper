@@ -28,6 +28,7 @@ home_view = View('Chirper', 'index')
 login_view = View('Log In', 'auth.login')
 register_view = View('Register', 'auth.register')
 logout_view = View('Logout', 'auth.logout')
+create_post_view = View('Post', 'posts.create')
 
 
 @nav.navigation('chirper_navbar')
@@ -39,6 +40,7 @@ def create_navbar():
 
     views = [home_view]
     if current_user.is_authenticated:
+        views.append(create_post_view)
         views.append(logout_view)
     else:
         views.append(register_view)

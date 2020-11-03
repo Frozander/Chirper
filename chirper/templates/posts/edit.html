@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}Chirper | Edit Post{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <form action="edit" method="post" name="edit">
+        <h2>Edit Post</h2>
+        {{ form.hidden_tag() }}
+        {{ wtf.form_field(form.title) }}
+        {{ wtf.form_field(form.body) }}
+        {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+        {{ wtf.form_field(form.delete, class="btn btn-danger") }}
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script defer nonce="{{ csp_nonce() }}" type="text/javascript"
+    src="{{ url_for('static', filename='eventHandler.js') }}"></script>
+{% endblock %}
