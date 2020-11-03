@@ -38,7 +38,7 @@
         <p class="body">{{ post.body }}</p>
         {% if current_user.id == post.author_id %}
         <div class="row-fluid">
-            <a class="btn btn-info span4 text-left" href="{{ url_for('posts.edit', id=post.id) }}">Edit</a>
+            <a class="glyphicon glyphicon-pencil" aria-hidden="true" href="{{ url_for('posts.edit', id=post.id) }}"></a>
         </div>
         {% endif %}
 
