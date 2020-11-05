@@ -45,7 +45,7 @@
             <a class="glyphicon glyphicon-heart-empty"
                 href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}"></a>
             {% endif %}
-            {{ post.likes.count() }}
+            {{ post.likes.count() }} by {{ post.author_name.username }}
             {% if current_user.id == post.author_id %}
             <a class="glyphicon glyphicon-pencil" aria-hidden="true" href="{{ url_for('posts.edit', id=post.id) }}"></a>
             {% endif %}

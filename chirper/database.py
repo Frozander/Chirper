@@ -89,6 +89,8 @@ class Post(db.Model):
     title = db.Column(db.String, nullable=False)
     body = db.Column(db.String, nullable=False)
 
+    author_name = db.relationship('User', backref='post', lazy='dynamic')
+
     # Like System
     likes = db.relationship('PostLike', backref='post', lazy='dynamic')
 
