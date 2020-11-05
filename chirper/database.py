@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     User class to define Table structure on the database
     """
 
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), unique=True, nullable=False)
@@ -51,14 +51,26 @@ class Post(db.Model):
     Post class to define Table structure on the database
     """
 
-    __tablename__ = 'posts'
+    __tablename__ = 'post'
 
     id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(
-        db.Integer, db.ForeignKey('users.id'), nullable=False)
+        db.Integer, db.ForeignKey('user.id'), nullable=False)
     created = db.Column(db.DateTime, nullable=False,
                         server_default=db.func.now())
     modified = db.Column(
         db.DateTime, server_default=db.func.now(), nullable=False, server_onupdate=db.func.now())
     title = db.Column(db.String, nullable=False)
     body = db.Column(db.String, nullable=False)
+
+
+class PostLike(db.Model):
+    """
+    PostLike class to define Table structure on the database
+    """
+
+    __tablename__ = 'post_like'
+
+    id = db.Column(db.Integer, primary_key=True)
+    liked_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    liker_id = db.Column(db.Integer, db.ForeignKey('user.id'))
