@@ -6,6 +6,7 @@ Creates the database instance and the models
 
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import backref
 from werkzeug.security import check_password_hash, generate_password_hash
 
 db = SQLAlchemy()
@@ -87,6 +88,9 @@ class Post(db.Model):
         db.DateTime, server_default=db.func.now(), nullable=False, server_onupdate=db.func.now())
     title = db.Column(db.String, nullable=False)
     body = db.Column(db.String, nullable=False)
+
+    # Like System
+    likes = db.relationship('PostLike', backref='post', lazy='dynamic')
 
 
 class PostLike(db.Model):

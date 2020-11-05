@@ -36,11 +36,20 @@
             </div>
         </header>
         <p class="body">{{ post.body }}</p>
-        {% if current_user.id == post.author_id %}
+
         <div class="row-fluid">
+            {% if current_user.has_liked_post(post) %}
+            <a class="glyphicon glyphicon-heart"
+                href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}"></a>
+            {% else %}
+            <a class="glyphicon glyphicon-heart-empty"
+                href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}"></a>
+            {% endif %}
+            {{ post.likes.count() }}
+            {% if current_user.id == post.author_id %}
             <a class="glyphicon glyphicon-pencil" aria-hidden="true" href="{{ url_for('posts.edit', id=post.id) }}"></a>
+            {% endif %}
         </div>
-        {% endif %}
 
     </article>
     {% if not loop.last %}
