@@ -23,6 +23,31 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
 
+    # Like System
+    liked = db.relationship(
+        'PostLike',
+        foreign_keys='PostLike.user_id',
+        backref='user', lazy='dynamic'
+    )
+
+    def like_post(self, post):
+        if not self.has_liked_post(post):  # If not liked
+            like = PostLike(user_id=self.id, post_id=post.id)
+            db.session.add(like)
+
+    def unlike_post(self, post):
+        if self.has_liked_post(post):  # If liked
+            PostLike.query.filter_by(
+                user_id=self.id,
+                post_id=post.id
+            ).delete()
+
+    def has_liked_post(self, post):
+        return PostLike.query.filter(
+            PostLike.user_id == self.id,
+            PostLike.post_id == post.id
+        ).count() > 0
+
     def set_password(self, password):
         """
         set_password(self, password: string)
@@ -72,5 +97,5 @@ class PostLike(db.Model):
     __tablename__ = 'post_like'
 
     id = db.Column(db.Integer, primary_key=True)
-    liked_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    liker_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
