@@ -48,19 +48,19 @@ class User(UserMixin, db.Model):
             PostLike.post_id == post.id
         ).count() > 0
 
-    def set_password(self, password):
+    def set_password(self, password: str):
         """
-        set_password(self, password: string)
-        Params:
+        Params::
+
             password: (string) Plaintext password to be hashed
         """
 
         self.password = generate_password_hash(password, method='sha256')
 
-    def check_password(self, password):
+    def check_password(self, password: str):
         """
-        check_password(self, password: string)
-        Params:
+        Params::
+
             password: (string) Plaintext password to be hashed
              and checked againt the stored password hash
         """

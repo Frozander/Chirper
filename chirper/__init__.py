@@ -35,10 +35,12 @@ csp = {
 
 def create_app(test_config=None):
     """
-    create_app(test_config: mapping) -> App
-    Params:
+    Params::
+
         test_config: (mapping) Used to configure the app.
-    Returns:
+
+    Returns::
+
         App: Created Flask App
     """
 

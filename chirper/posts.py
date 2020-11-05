@@ -13,14 +13,20 @@ bp = Blueprint('posts', __name__, url_prefix='/posts')
 
 def get_one_post(id, check_author=True):
     """
-    get_one_post(id, check_author=True) -> Post, HTTPException
-    Params:
+    Params::
+
         id: (int) Id of the post to be returned
+
         check_author: (bool) Bypass author check. For moderator access.
-    Returns:
+
+    Returns::
+
         Post: Post object with the data of the given post id
+
         HTTPException:
+
             404: Post does not exits
+
             403: Not authorized  
     """
 
@@ -39,9 +45,10 @@ def get_one_post(id, check_author=True):
 @login_required
 def create():
     """
-    create() -> template
     Endpoint: posts/create
+
     Handles : GET, POST
+
     Post creation page.
     """
 
@@ -69,9 +76,10 @@ def create():
 @login_required
 def edit(id):
     """
-    edit(id) -> template
     Endpoint: posts/<int:id>/edit
+
     Handles : GET, POST
+
     Post editing page, author can change the contents of the post or delete it
     """
 
@@ -102,9 +110,10 @@ def edit(id):
 @login_required
 def delete(id):
     """
-    delete(id) -> template
     Endpoint: posts/<int:id>/delete
+
     Handles : POST
+
     API endpoint for deleting posts. Needs authorization of the poster
     """
 
@@ -115,3 +124,25 @@ def delete(id):
         db.session.commit()
         flash('Post has been deleted!', category='danger')
         return redirect(url_for('index'))
+
+
+@bp.route('/like/<int:post_id>/<action>')
+@login_required
+def like_action(post_id, action):
+    """
+    Endpoint: /like/<int:post_id>/<action>
+
+    Handles : POST
+
+    API endpoint for liking/unliking posts. Needs authorization of the poster
+    """
+
+    post = Post.query.filter_by(id=post_id).first_or_404()
+
+    if action == 'like':
+        current_user.like_post(post)
+    elif action == 'unlike':
+        current_user.unlike_post(post)
+
+    db.session.commit()
+    return redirect(request.referrer)
