@@ -4,7 +4,7 @@
 
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='base.css')}}">
+<link href="{{ url_for('static', filename='base.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block navbar %}
@@ -39,15 +39,19 @@
 
         <div class="row-fluid">
             {% if current_user.has_liked_post(post) %}
-            <a class="glyphicon glyphicon-heart"
-                href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}"></a>
+            <a href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}">
+                <span class="glyphicon glyphicon-heart"></span>
+            </a>
             {% else %}
-            <a class="glyphicon glyphicon-heart-empty"
-                href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}"></a>
+            <a href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}">
+                <span class="glyphicon glyphicon-heart-empty text-dark"></span>
+            </a>
             {% endif %}
             {{ post.likes.count() }} by {{ post.author_name.username }}
             {% if current_user.id == post.author_id %}
-            <a class="glyphicon glyphicon-pencil" aria-hidden="true" href="{{ url_for('posts.edit', id=post.id) }}"></a>
+            <a aria-hidden="true" href="{{ url_for('posts.edit', id=post.id) }}">
+                <span class="glyphicon glyphicon-pencil text-dark"></span>
+            </a>
             {% endif %}
         </div>
 
@@ -57,4 +61,8 @@
     {% endif %}
     {% endfor %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
 {% endblock %}
