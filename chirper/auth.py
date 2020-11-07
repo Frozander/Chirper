@@ -36,7 +36,6 @@ def load_user(user_id):
 @login_manager.unauthorized_handler
 def unauthorized():
     """
-    unauthorized() -> Response
     Registers error message to flash if the client requests to an endpoint that needs authorization.
     """
 
@@ -47,8 +46,8 @@ def unauthorized():
 @bp.before_request
 def before_request():
     """
-    before_request() -> None
     USELESS Since current_user can be directly used in templates
+
     Registers current_user to g in the session for templates to use
     """
 
@@ -58,9 +57,10 @@ def before_request():
 @bp.route('/login', methods=['POST', 'GET'])
 def login():
     """
-    login() -> Template
     Endpoint: auth/login
+
     Handles : POST, GET
+
     This function handles requests to the auth/login endpoint.
     """
 
@@ -86,9 +86,10 @@ def login():
 @bp.route('/register', methods=['POST', 'GET'])
 def register():
     """
-    register() -> Template
     Endpoint: auth/register
+
     Handles : POST, GET
+
     This function handles requests to the auth/register endpoint.
     """
 
@@ -127,9 +128,10 @@ def register():
 @login_required
 def logout():
     """
-    logout() -> Template
     Endpoint: auth/logout
+
     Handles : POST, GET
+
     This function handles requests to the auth/logout endpoint.
     """
 
