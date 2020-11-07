@@ -41,6 +41,22 @@ def get_one_post(id, check_author=True):
     return post
 
 
+@bp.route('/<int:id>', methods=['GET', 'POST'])
+@login_required
+def post_page(id):
+    """
+    Endpoint: posts/<int:id>
+
+    Handles : GET, POST
+
+    Post page. Contains posts like index but also shows and lets you send comments
+    """
+
+    post = Post.query.filter_by(id=id).first_or_404()
+
+    return render_template('posts/post.html', post=post)
+
+
 @bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
@@ -99,7 +115,8 @@ def edit(id):
 
         db.session.commit()
         flash('Post has been updated!', category='info')
-        return redirect(url_for('index'))
+        next_page = request.args.get('next')
+        return redirect(next_page or url_for('index'))
     else:
         post_form.title.data = post.title
         post_form.body.data = post.body
@@ -128,7 +145,7 @@ def delete(id):
 
 @bp.route('/like/<int:post_id>/<action>')
 @login_required
-def like_action(post_id, action):
+def like_action(id, action):
     """
     Endpoint: /like/<int:post_id>/<action>
 
@@ -137,7 +154,7 @@ def like_action(post_id, action):
     API endpoint for liking/unliking posts. Needs authorization of the poster
     """
 
-    post = Post.query.filter_by(id=post_id).first_or_404()
+    post = Post.query.filter_by(id=id).first_or_404()
 
     if action == 'like':
         current_user.like_post(post)
