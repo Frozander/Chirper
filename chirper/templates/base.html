@@ -30,13 +30,14 @@
 
     {% for post in posts %}
     <article class="post">
-        <header>
-            <div>
-                <h1>{{ post.title }}</h1>
-            </div>
-        </header>
-        <p class="body">{{ post.body }}</p>
-
+        <a href="{{ url_for('posts.post_page', id=post.id, next=request.path)}}">
+            <header>
+                <div>
+                    <h1>{{ post.title }}</h1>
+                </div>
+            </header>
+            <p class="body">{{ post.body }}</p>
+        </a>
         <div class="row-fluid">
             {% if current_user.has_liked_post(post) %}
             <a href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}">
@@ -44,13 +45,13 @@
             </a>
             {% else %}
             <a href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}">
-                <span class="glyphicon glyphicon-heart-empty text-dark"></span>
+                <span class="glyphicon glyphicon-heart-empty"></span>
             </a>
             {% endif %}
-            {{ post.likes.count() }} by {{ post.author_name.username }}
+            {{ post.likes.count() }} &nbsp;&nbsp;&nbsp;&nbsp;<b>by {{ post.author_name.username }}</b>
             {% if current_user.id == post.author_id %}
-            <a aria-hidden="true" href="{{ url_for('posts.edit', id=post.id) }}">
-                <span class="glyphicon glyphicon-pencil text-dark"></span>
+            <a aria-hidden="true" href="{{ url_for('posts.edit', id=post.id, next=request.path) }}">
+                <span class="glyphicon glyphicon-pencil"></span>
             </a>
             {% endif %}
         </div>
