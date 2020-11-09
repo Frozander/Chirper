@@ -56,3 +56,12 @@ hr.rounded {
   border-top: 8px solid #bbb;
   border-radius: 5px;
 }
+
+header::before {
+  display: block; 
+  content: " "; 
+  margin-top: -50px; 
+  height: 30px; 
+  visibility: hidden; 
+  pointer-events: none;
+}
