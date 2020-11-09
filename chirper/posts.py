@@ -145,7 +145,7 @@ def delete(id):
 
 @bp.route('/like/<int:post_id>/<action>')
 @login_required
-def like_action(id, action):
+def like_action(post_id, action):
     """
     Endpoint: /like/<int:post_id>/<action>
 
@@ -154,7 +154,7 @@ def like_action(id, action):
     API endpoint for liking/unliking posts. Needs authorization of the poster
     """
 
-    post = Post.query.filter_by(id=id).first_or_404()
+    post = Post.query.filter_by(id=post_id).first_or_404()
 
     if action == 'like':
         current_user.like_post(post)
