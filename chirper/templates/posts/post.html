@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for('static', filename='comments.css')}}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 <div class="container">
 
@@ -57,7 +62,41 @@
         <hr>
     </article>
     <div class="comment-section" id="Comments">
-        <h2>COMMENT SECTION PLACEHOLDER</h2>
+        <div class="actionBox">
+            <ul class="commentList">
+                <li>
+                    <div class="commenterImage">
+                        <img src=" {{url_for('static', filename='img/50.jpg')}} " />
+                    </div>
+                    <div class="commentText">
+                        <p class="">
+                            Hello this is a test comment.
+                        </p>
+                        <span class="date sub-text">
+                            on March 5th, 2014
+                            &nbsp;&nbsp;
+                            by Hobosen
+                        </span>
+                    </div>
+                </li>
+                <hr class="dotted">
+                <li>
+                    <div class="commenterImage">
+                        <img src=" {{url_for('static', filename='img/50.jpg')}} " />
+                    </div>
+                    <div class="commentText">
+                        <p class="">
+                            Wow you're awesome!
+                        </p>
+                        <span class="date sub-text">
+                            on March 4th, 2012
+                            &nbsp;&nbsp;
+                            by Poggers
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 

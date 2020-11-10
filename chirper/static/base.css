@@ -43,7 +43,7 @@ hr.dashed {
 
 /* Dotted border */
 hr.dotted {
-  border-top: 3px dotted var(--palette-orange);
+  border-top: 2px dotted var(--palette-orange);
 }
 
 /* Solid border */
