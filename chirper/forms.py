@@ -80,3 +80,18 @@ class PostForm(FlaskForm):
                          render_kw={'placeholder': 'Share your thoughts...'})
     submit = SubmitField('Post')
     delete = SubmitField('Delete')
+
+
+class CommentForm(FlaskForm):
+    """
+    CommentForm class to be used in the comment section in the /posts/<int:id>
+    """
+
+    body = TextAreaField('Message',
+                         validators=[
+                             DataRequired(),
+                             Length(min=3, max=240,
+                                    message="Content must have 3-240 characters")
+                         ],
+                         render_kw={'placeholder': 'Share your thoughts...'})
+    submit = SubmitField('Post')

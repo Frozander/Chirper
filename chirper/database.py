@@ -105,3 +105,37 @@ class PostLike(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+class Comment(db.Model):
+    """
+    Comment class to define Table structure on the database
+    """
+
+    __tablename__ = 'comment'
+
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(
+        db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created = db.Column(db.DateTime, nullable=False,
+                        server_default=db.func.now())
+    modified = db.Column(
+        db.DateTime, server_default=db.func.now(), nullable=False, server_onupdate=db.func.now())
+    body = db.Column(db.String, nullable=False)
+
+    author_name = db.relationship('User', backref='comment')
+
+    # Like System
+    likes = db.relationship('CommentLike', backref='comment', lazy='dynamic')
+
+
+class CommentLike(db.Model):
+    """
+    CommentLike class to define Table structure on the database
+    """
+
+    __tablename__ = 'comment_like'
+
+    id = db.Column(db.Integer, primary_key=True)
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
