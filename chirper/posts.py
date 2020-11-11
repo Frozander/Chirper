@@ -194,6 +194,7 @@ def delete(id):
         db.session.commit()
         flash('Post has been deleted!', category='danger')
         return redirect(url_for('index'))
+    abort(403)
 
 
 @bp.route('/like/<int:post_id>/<action>')

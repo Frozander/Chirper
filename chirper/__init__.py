@@ -90,8 +90,9 @@ def create_app(test_config=None):
     # Ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
+        print("Creating the instance path")
     except OSError:
-        pass
+        print("Instance path is already created. Using the existing directory")
 
     # Register Blueprints
     app.register_blueprint(auth.bp)
