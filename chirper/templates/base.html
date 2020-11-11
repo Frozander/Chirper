@@ -54,7 +54,7 @@
             <a href="{{ url_for('posts.post_page', id=post.id) }}#Comments">
                 <span class="glyphicon glyphicon glyphicon-comment"></span>
             </a>
-            {{ range(1, 10) | random }} Comments
+            {{ post.comments.count() }} Comments
             &nbsp;&nbsp;&nbsp;&nbsp;
             {% if current_user.id == post.author_id %}
             <a aria-hidden="true" href="{{ url_for('posts.edit', id=post.id, next=request.path) }}">

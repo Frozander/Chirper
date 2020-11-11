@@ -31,6 +31,37 @@ class User(UserMixin, db.Model):
         backref='user', lazy='dynamic'
     )
 
+    # Comment System
+    commented = db.relationship(
+        'Comment',
+        foreign_keys='Comment.author_id',
+        backref='user', lazy='dynamic'
+    )
+
+    commentliked = db.relationship(
+        'CommentLike',
+        foreign_keys='CommentLike.user_id',
+        backref='user', lazy='dynamic'
+    )
+
+    def like_comment(self, comment):
+        if not self.has_liked_comment(comment):  # If not liked
+            like = CommentLike(user_id=self.id, comment_id=comment.id)
+            db.session.add(like)
+
+    def unlike_comment(self, comment):
+        if self.has_liked_comment(comment):  # If liked
+            CommentLike.query.filter_by(
+                user_id=self.id,
+                comment_id=comment.id
+            ).delete()
+
+    def has_liked_comment(self, comment):
+        return CommentLike.query.filter(
+            CommentLike.user_id == self.id,
+            CommentLike.comment_id == comment.id
+        ).count() > 0
+
     def like_post(self, post):
         if not self.has_liked_post(post):  # If not liked
             like = PostLike(user_id=self.id, post_id=post.id)
@@ -92,7 +123,12 @@ class Post(db.Model):
     author_name = db.relationship('User', backref='post')
 
     # Like System
-    likes = db.relationship('PostLike', backref='post', lazy='dynamic')
+    likes = db.relationship('PostLike', backref='post',
+                            lazy='dynamic', cascade="all, delete-orphan")
+
+    # Comment System
+    comments = db.relationship(
+        'Comment', backref='post', lazy='dynamic', cascade="all, delete-orphan")
 
 
 class PostLike(db.Model):
@@ -115,6 +151,7 @@ class Comment(db.Model):
     __tablename__ = 'comment'
 
     id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
     author_id = db.Column(
         db.Integer, db.ForeignKey('user.id'), nullable=False)
     created = db.Column(db.DateTime, nullable=False,
@@ -126,7 +163,8 @@ class Comment(db.Model):
     author_name = db.relationship('User', backref='comment')
 
     # Like System
-    likes = db.relationship('CommentLike', backref='comment', lazy='dynamic')
+    likes = db.relationship('CommentLike', backref='comment',
+                            lazy='dynamic', cascade="all, delete-orphan")
 
 
 class CommentLike(db.Model):

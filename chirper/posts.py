@@ -5,8 +5,8 @@ from flask_login import current_user
 from werkzeug.exceptions import abort
 
 from chirper.auth import login_required
-from chirper.database import db, Post
-from chirper.forms import PostForm
+from chirper.database import db, Post, Comment
+from chirper.forms import PostForm, CommentForm
 
 bp = Blueprint('posts', __name__, url_prefix='/posts')
 
@@ -53,8 +53,60 @@ def post_page(id):
     """
 
     post = Post.query.filter_by(id=id).first_or_404()
+    comments = post.comments
+    comment_form = CommentForm()
 
-    return render_template('posts/post.html', post=post)
+    if comment_form.validate_on_submit():
+        new_comment = Comment(
+            post_id=post.id,
+            author_id=current_user.id,
+            body=comment_form.body.data
+        )
+        db.session.add(new_comment)
+        db.session.commit()
+        flash('Comment has been added!', category='info')
+        return redirect(url_for('posts.post_page', id=post.id))
+
+    return render_template('posts/post.html', post=post, comments=comments, comment_form=comment_form)
+
+
+@bp.route('/comment/<int:id>/delete')
+@login_required
+def delete_comment(id):
+    """
+    Endpoint: comment/<int:id>/delete
+
+    Handles : GET, POST
+
+    API endpoint for deleting comments. Needs authorization of the poster
+    """
+    comment = Comment.query.filter_by(id=id).first_or_404()
+
+    if current_user.id == comment.author_id:
+        db.session.delete(comment)
+        db.session.commit()
+    return redirect(request.referrer)
+
+
+@bp.route('/comment/<int:id>/<action>')
+@login_required
+def like_comment(id, action):
+    """
+    Endpoint: comment/<int:id>/like
+
+    Handles : GET, POST
+
+    API endpoint for liking comments.
+    """
+    comment = Comment.query.filter_by(id=id).first_or_404()
+
+    if action == 'like':
+        current_user.like_comment(comment)
+    elif action == 'unlike':
+        current_user.unlike_comment(comment)
+
+    db.session.commit()
+    return redirect(request.referrer)
 
 
 @bp.route('/create', methods=['GET', 'POST'])
@@ -116,7 +168,8 @@ def edit(id):
         db.session.commit()
         flash('Post has been updated!', category='info')
         next_page = request.args.get('next')
-        return redirect(next_page or url_for('index'))
+
+        return redirect(next_page or url_for('posts.post_page', id=post.id) or url_for('index'))
     else:
         post_form.title.data = post.title
         post_form.body.data = post.body
@@ -136,7 +189,7 @@ def delete(id):
 
     post = get_one_post(id)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and current_user.id == post.author_id:
         db.session.delete(post)
         db.session.commit()
         flash('Post has been deleted!', category='danger')

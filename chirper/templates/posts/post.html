@@ -1,9 +1,5 @@
 {% extends "base.html" %}
-
-{% block styles %}
-{{ super() }}
-<link href="{{ url_for('static', filename='comments.css')}}" rel="stylesheet">
-{% endblock %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
 <div class="container">
@@ -51,7 +47,7 @@
             <a href="{{ url_for('posts.post_page', id=post.id) }}#Comments">
                 <span class="glyphicon glyphicon glyphicon-comment"></span>
             </a>
-            {{ range(1, 10) | random }} Comments
+            {{ post.comments.count() }} Comments
             {% if current_user.id == post.author_id %}
             &nbsp;&nbsp;&nbsp;&nbsp;
             <a aria-hidden="true" href="{{ url_for('posts.edit', id=post.id, next=request.path) }}">
@@ -62,39 +58,62 @@
         <hr>
     </article>
     <div class="comment-section" id="Comments">
+        <label>Comments</label>
+        <div class="commentBox">
+            <form action="{{ post.id }}" method="post" name="comment" class="form-inline" role="form">
+                <div class="form-group">
+                    {{ comment_form.hidden_tag() }}
+                    {{ comment_form.body(class_="form-control") }}
+                </div>
+                <br>
+                <div class="form-group">
+                    {{ wtf.form_field(comment_form.submit, class="btn btn-warning") }}
+                </div>
+            </form>
+        </div>
         <div class="actionBox">
             <ul class="commentList">
-                <li>
+                {% for comment in comments %}
+                <li id="c{{ comment.id }}">
                     <div class="commenterImage">
+                        <!-- Use commenter image when profiles are added -->
                         <img src=" {{url_for('static', filename='img/50.jpg')}} " />
                     </div>
                     <div class="commentText">
                         <p class="">
-                            Hello this is a test comment.
+                            {{ comment.body }}
                         </p>
                         <span class="date sub-text">
-                            on March 5th, 2014
+                            on {{ comment.created }}
                             &nbsp;&nbsp;
-                            by Hobosen
+                            by {{ comment.author_name.username }}
+                        </span>
+                        <br>
+                        <span class="sub-text">
+                            {% if current_user.has_liked_comment(comment) %}
+                            <a
+                                href="{{ url_for('posts.like_comment', id=comment.id, action='unlike') }}#c{{ comment.id }}">
+                                <span class="glyphicon glyphicon-heart"></span>
+                            </a>
+                            {% else %}
+                            <a
+                                href="{{ url_for('posts.like_comment', id=comment.id, action='like') }}#c{{ comment.id }}">
+                                <span class="glyphicon glyphicon-heart-empty"></span>
+                            </a>
+                            {% endif %}
+                            {{ comment.likes.count() }} Likes
+                            &nbsp;&nbsp;
+                            {% if current_user.id == comment.author_id %}
+                            <a href="{{ url_for('posts.delete_comment', id=comment.id) }}">
+                                <span class="glyphicon glyphicon glyphicon-remove"></span>
+                            </a>
+                            Delete
+                            {% endif %}
                         </span>
                     </div>
                 </li>
                 <hr class="dotted">
-                <li>
-                    <div class="commenterImage">
-                        <img src=" {{url_for('static', filename='img/50.jpg')}} " />
-                    </div>
-                    <div class="commentText">
-                        <p class="">
-                            Wow you're awesome!
-                        </p>
-                        <span class="date sub-text">
-                            on March 4th, 2012
-                            &nbsp;&nbsp;
-                            by Poggers
-                        </span>
-                    </div>
-                </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
