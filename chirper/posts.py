@@ -176,7 +176,7 @@ def edit(id):
         return render_template('posts/edit.html', form=post_form, post=post)
 
 
-@bp.route('/<int:id>/delete', methods=['POST'])
+@bp.route('/<int:id>/delete', methods=['POST', 'GET'])
 @login_required
 def delete(id):
     """
@@ -189,12 +189,13 @@ def delete(id):
 
     post = get_one_post(id)
 
-    if request.method == 'POST' and current_user.id == post.author_id:
+    if current_user.id == post.author_id:
         db.session.delete(post)
         db.session.commit()
         flash('Post has been deleted!', category='danger')
         return redirect(url_for('index'))
-    abort(403)
+    flash('You cannot delete a post from someone else', category='danger')
+    return redirect(url_for('index'))
 
 
 @bp.route('/like/<int:post_id>/<action>')

@@ -127,7 +127,7 @@ class Post(db.Model):
 
     # Comment System
     comments = db.relationship(
-        'Comment', backref='post', lazy='dynamic', cascade="all, delete-orphan")
+        'Comment', backref='post', lazy='dynamic', order_by='Comment.created.desc()', cascade="all, delete-orphan")
 
 
 class PostLike(db.Model):
