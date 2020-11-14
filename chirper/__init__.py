@@ -25,7 +25,7 @@ csp = {
     'default-src': [
         '\'self\'',
         'cdnjs.cloudflare.com',
-        'fonts.googleapis.com'
+        'fonts.googleapis.com',
     ],
     'script-src': [
         '\'self\'',
@@ -76,11 +76,11 @@ def create_app(test_config=None):
     # For CSRF Protection
     csrf = CSRFProtect(app)
     # Minify HTML, JS, CSS
-    mini = minify(app, caching_limit=2)
+    mini = minify(app, caching_limit=0)
     # For Header Security
     talisman = Talisman(app,
                         content_security_policy=csp,
-                        content_security_policy_nonce_in=['script-src']
+                        content_security_policy_nonce_in=['script-src'],
                         )
     # Bootstrap Wrapper
     bootstrap = Bootstrap(app)
