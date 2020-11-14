@@ -140,12 +140,18 @@ display:inline-block;
   padding:10px;
 }
 
-.navbar-brand {
+a.navbar-brand {
   font-family: 'Changa', sans-serif;
   font-weight: 600;
-  color: var(--palette-logo-orange);
+  /* I HATE TO USE !important but Flask-Nav nor Flask-Bootstrap does not
+  offer any way to modify SASS files in bootstrap. To prevent overriding
+  of these colors I had to use this. */
+  color: var(--palette-logo-orange)!important; 
 }
 
 a.navbar-brand:link {
-  color: var(--palette-logo-orange);
+  /* I HATE TO USE !important but Flask-Nav nor Flask-Bootstrap does not
+  offer any way to modify SASS files in bootstrap. To prevent overriding
+  of these colors I had to use this. */
+  color: var(--palette-logo-orange)!important;
 }
