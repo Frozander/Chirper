@@ -149,7 +149,5 @@ cython_debug/
 # Local History for Visual Studio Code
 .history/
 
-*.jpeg
-*.jpg
-*.png
-*.ico
+# Ignore user images but allow others
+instance/
