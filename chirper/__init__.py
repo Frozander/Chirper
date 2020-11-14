@@ -25,10 +25,17 @@ csp = {
     'default-src': [
         '\'self\'',
         'cdnjs.cloudflare.com',
+        'fonts.googleapis.com'
     ],
     'script-src': [
         '\'self\'',
         'cdnjs.cloudflare.com',
+    ],
+    'font-src': [
+        '\'self\'',
+        'fonts.googleapis.com',
+        'cdnjs.cloudflare.com',
+        'fonts.gstatic.com'
     ]
 }
 

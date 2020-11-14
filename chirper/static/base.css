@@ -4,6 +4,8 @@
   --palette-orange: #FF7F11;
   --palette-red: #FF1B1C;
   --palette-pink: #EE4266;
+  --palette-logo-red: #f03030;
+  --palette-logo-orange: #f06330;
 }
 
 body {
@@ -136,4 +138,14 @@ display:inline-block;
 .actionBox {
   border-top:1px dotted #bbb;
   padding:10px;
+}
+
+.navbar-brand {
+  font-family: 'Changa', sans-serif;
+  font-weight: 600;
+  color: var(--palette-logo-orange);
+}
+
+a.navbar-brand:link {
+  color: var(--palette-logo-orange);
 }
