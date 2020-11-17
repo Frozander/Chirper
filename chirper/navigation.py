@@ -40,7 +40,9 @@ def create_navbar():
 
     views = [home_view]
     if current_user.is_authenticated:
+        profile_view = View('Profile', 'user.profile', user_id=current_user.id)
         views.append(create_post_view)
+        views.append(profile_view)
         views.append(logout_view)
     else:
         views.append(register_view)

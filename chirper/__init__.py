@@ -15,7 +15,7 @@ from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 from flask_minify import minify
 
-from . import auth, posts
+from . import auth, posts, user
 from .database import db
 from .navigation import CustomRenderer, nav
 
@@ -103,6 +103,7 @@ def create_app(test_config=None):
     # Register Blueprints
     app.register_blueprint(auth.bp)
     app.register_blueprint(posts.bp)
+    app.register_blueprint(user.bp)
 
     # TODO: Turn this to a infinite scroll using API calls with JSON returns
     @app.route('/', methods=['GET', 'POST'])
