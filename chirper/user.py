@@ -16,4 +16,4 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 def profile(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
     upload_form = UploadProfileForm()
-    return render_template('user/profile.html', user=user, upload_form=upload_form)
+    return render_template('user/test2.html', user=user, upload_form=upload_form)
