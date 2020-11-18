@@ -7,6 +7,7 @@ Creates WTForms Classes for the various forms (LoginForm, RegisterForm etc.)
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 
 class LoginForm(FlaskForm):
@@ -95,3 +96,15 @@ class CommentForm(FlaskForm):
                          ],
                          render_kw={'placeholder': 'Share your thoughts...'})
     submit = SubmitField('Post')
+
+
+class UploadProfileForm(FlaskForm):
+    """
+    UploadProfileForm class
+    """
+
+    upload = FileField('Image', validators=[
+        FileRequired(),
+        FileAllowed(['jpg', 'png'], 'Images only!')
+    ])
+    submit = SubmitField('Upload')

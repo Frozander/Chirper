@@ -22,6 +22,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(15), unique=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
+    # p_photo = db.Column(db.String(), unique=False,
+    #                     nullable=False, default='/static/img/50.jpg')
 
     # Like System
     liked = db.relationship(
