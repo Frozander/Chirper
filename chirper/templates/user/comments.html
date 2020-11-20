@@ -1,0 +1,32 @@
+{% extends "user/profile.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+<!-- This will display one of 4 different views for user data
+by extending the profile page and modifying the user_content block -->
+
+{% block active_bar%}
+<li>
+    <a href="{{ url_for('user.profile', user_id=user.id) }}">
+        <i class="glyphicon glyphicon-home"></i>
+        Overview </a>
+</li>
+<li>
+    <a href="{{ url_for('user.settings', user_id=user.id) }}">
+        <i class="glyphicon glyphicon-user"></i>
+        Account Settings </a>
+</li>
+<li>
+    <a href="{{ url_for('user.liked', user_id=user.id) }}">
+        <i class="glyphicon glyphicon-ok"></i>
+        Liked </a>
+</li>
+<li class="active">
+    <a href="{{ url_for('user.comments', user_id=user.id) }}">
+        <i class="glyphicon glyphicon-flag"></i>
+        Comments </a>
+</li>
+{% endblock %}
+
+{% block user_content %}
+Your comments are here
+{% endblock %}

@@ -15,5 +15,26 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 @login_required
 def profile(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
+    return render_template('user/profile.html', user=user)
+
+
+@bp.route('/<int:user_id>/settings', methods=['GET', 'POST'])
+@login_required
+def settings(user_id):
+    user = User.query.filter_by(id=user_id).first_or_404()
     upload_form = UploadProfileForm()
-    return render_template('user/test2.html', user=user, upload_form=upload_form)
+    return render_template('user/settings.html', user=user, upload_form=upload_form)
+
+
+@bp.route('/<int:user_id>/liked', methods=['GET', 'POST'])
+@login_required
+def liked(user_id):
+    user = User.query.filter_by(id=user_id).first_or_404()
+    return render_template('user/liked.html', user=user)
+
+
+@bp.route('/<int:user_id>/comments', methods=['GET', 'POST'])
+@login_required
+def comments(user_id):
+    user = User.query.filter_by(id=user_id).first_or_404()
+    return render_template('user/comments.html', user=user)
