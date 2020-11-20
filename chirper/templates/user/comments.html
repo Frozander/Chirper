@@ -12,17 +12,17 @@ by extending the profile page and modifying the user_content block -->
 </li>
 <li>
     <a href="{{ url_for('user.settings', user_id=user.id) }}">
-        <i class="glyphicon glyphicon-user"></i>
+        <i class="glyphicon glyphicon-cog"></i>
         Account Settings </a>
 </li>
 <li>
     <a href="{{ url_for('user.liked', user_id=user.id) }}">
-        <i class="glyphicon glyphicon-ok"></i>
+        <i class="glyphicon glyphicon-heart"></i>
         Liked </a>
 </li>
 <li class="active">
     <a href="{{ url_for('user.comments', user_id=user.id) }}">
-        <i class="glyphicon glyphicon-flag"></i>
+        <i class="glyphicon glyphicon-comment"></i>
         Comments </a>
 </li>
 {% endblock %}
