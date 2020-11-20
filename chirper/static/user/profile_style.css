@@ -4,6 +4,16 @@ A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themefores
 Licensed under MIT
 ***/
 
+:root {
+  --palette-white: #ffffff;
+  --palette-black: #262626;
+  --palette-orange: #FF7F11;
+  --palette-red: #FF1B1C;
+  --palette-pink: #EE4266;
+  --palette-logo-red: #f03030;
+  --palette-logo-orange: #f06330;
+}
+
 body {
     background: #F1F3FA;
   }
@@ -101,7 +111,8 @@ body {
   .profile-usermenu ul li.active a {
     color: #5b9bd1;
     background-color: #f6f9fb;
-    border-left: 2px solid #5b9bd1;
+    /* border-left: 2px solid #5b9bd1; */
+    border-left: 2px solid var(--palette-black);
     margin-left: -2px;
   }
   
