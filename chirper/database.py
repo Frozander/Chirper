@@ -25,6 +25,9 @@ class User(UserMixin, db.Model):
     # p_photo = db.Column(db.String(), unique=False,
     #                     nullable=False, default='/static/img/50.jpg')
 
+    posts = db.relationship(
+        'Post', backref='user', lazy='dynamic', order_by='Post.created.desc()', cascade="all, delete-orphan")
+    
     # Like System
     liked = db.relationship(
         'PostLike',

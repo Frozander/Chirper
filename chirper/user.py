@@ -15,7 +15,8 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 @login_required
 def profile(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
-    return render_template('user/profile.html', user=user)
+    posts = user.posts
+    return render_template('user/profile.html', user=user, posts=posts)
 
 
 @bp.route('/<int:user_id>/settings', methods=['GET', 'POST'])

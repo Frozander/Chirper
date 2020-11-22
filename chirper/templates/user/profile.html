@@ -84,7 +84,60 @@
         <div class="col-md-9">
             <div class="profile-content">
                 {% block user_content %}
-                Some user related content goes here...
+                <div class="comment-section" id="Comments">
+                    <label>Posts</label>
+                    <div class="actionBox">
+                        <ul class="commentList">
+                            {% for post in posts %}
+                            <li id="c{{ post.id }}">
+                                <div class="commenterImage">
+                                    <!-- Use commenter image when profiles are added -->
+                                    <img src=" {{url_for('static', filename='img/50.jpg')}} " />
+                                </div>
+                                <div class="commentText">
+                                    <p class="">
+                                        {{ post.body }}
+                                    </p>
+                                    <span class="date sub-text">
+                                        on {{ post.created }}
+                                        &nbsp;&nbsp;
+                                        by {{ user.username }}
+                                    </span>
+                                    <br>
+                                    <span class="sub-text">
+                                        {% if current_user.has_liked_post(post) %}
+                                        <a
+                                            href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}#{{ post.id }}">
+                                            <span class="glyphicon glyphicon-heart"></span>
+                                        </a>
+                                        {% else %}
+                                        <a
+                                            href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}#{{ post.id }}">
+                                            <span class="glyphicon glyphicon-heart-empty"></span>
+                                        </a>
+                                        {% endif %}
+                                        {{ post.likes.count() }} Likes
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="{{ url_for('posts.post_page', id=post.id) }}#Comments">
+                                            <span class="glyphicon glyphicon glyphicon-comment"></span>
+                                        </a>
+                                        {{ post.comments.count() }} Comments
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        {% if current_user.id == post.author_id %}
+                                        <a aria-hidden="true"
+                                            href="{{ url_for('posts.edit', id=post.id, next=request.path) }}">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </a>
+                                        {% endif %}
+                                        <b>by {{ post.author_name.username }}</b>
+                                    </span>
+                                </div>
+                            </li>
+                            <hr class="dotted">
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
                 {% endblock %}
             </div>
         </div>
