@@ -107,12 +107,12 @@
                                     <span class="sub-text">
                                         {% if current_user.has_liked_post(post) %}
                                         <a
-                                            href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}#{{ post.id }}">
+                                            href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}#c{{ post.id }}">
                                             <span class="glyphicon glyphicon-heart"></span>
                                         </a>
                                         {% else %}
                                         <a
-                                            href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}#{{ post.id }}">
+                                            href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}#c{{ post.id }}">
                                             <span class="glyphicon glyphicon-heart-empty"></span>
                                         </a>
                                         {% endif %}
