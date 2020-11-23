@@ -1,3 +1,10 @@
+"""
+Chiper.Posts
+
+This module handles the endpoints for post creation, editing, liking.
+It also handles the same operations for comments (except editing).
+"""
+
 from flask import (
     Blueprint, flash, redirect, render_template, url_for, request
 )
@@ -45,7 +52,7 @@ def get_one_post(id, check_author=True):
 @login_required
 def post_page(id):
     """
-    Endpoint: posts/<int:id>
+    Endpoint: posts/<b64:id>
 
     Handles : GET, POST
 
@@ -74,12 +81,13 @@ def post_page(id):
 @login_required
 def delete_comment(id):
     """
-    Endpoint: comment/<int:id>/delete
+    Endpoint: comment/<b64:id>/delete
 
     Handles : GET, POST
 
     API endpoint for deleting comments. Needs authorization of the poster
     """
+
     comment = Comment.query.filter_by(id=id).first_or_404()
 
     if current_user.id == comment.author_id:
@@ -92,12 +100,13 @@ def delete_comment(id):
 @login_required
 def like_comment(id, action):
     """
-    Endpoint: comment/<int:id>/like
+    Endpoint: comment/<b64:id>/like
 
     Handles : GET, POST
 
     API endpoint for liking comments.
     """
+
     comment = Comment.query.filter_by(id=id).first_or_404()
 
     if action == 'like':
@@ -144,7 +153,7 @@ def create():
 @login_required
 def edit(id):
     """
-    Endpoint: posts/<int:id>/edit
+    Endpoint: posts/<b64:id>/edit
 
     Handles : GET, POST
 
@@ -180,7 +189,7 @@ def edit(id):
 @login_required
 def delete(id):
     """
-    Endpoint: posts/<int:id>/delete
+    Endpoint: posts/<b64:id>/delete
 
     Handles : POST
 
@@ -202,7 +211,7 @@ def delete(id):
 @login_required
 def like_action(post_id, action):
     """
-    Endpoint: /like/<int:post_id>/<action>
+    Endpoint: /like/<b64:post_id>/<action>
 
     Handles : POST
 

@@ -85,7 +85,7 @@ class PostForm(FlaskForm):
 
 class CommentForm(FlaskForm):
     """
-    CommentForm class to be used in the comment section in the /posts/<int:id>
+    CommentForm class to be used in the comment section in the /posts/<b64:id>
     """
 
     body = TextAreaField('Message',
