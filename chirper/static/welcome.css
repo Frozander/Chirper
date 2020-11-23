@@ -26,7 +26,7 @@
   
   .welcome-title-main {
     color: var(--palette-logo-orange);
-    font-size: 72px;
+    font-size: 15vw;
     font-family: 'Changa', sans-serif;
     font-weight: 600;
     margin-bottom: 7px;
@@ -35,7 +35,7 @@
   .welcome-title-sub {
     text-transform: uppercase;
     color: var(--palette-black);
-    font-size: 18px;
+    font-size: 5vw;
     font-family: 'Changa', sans-serif;
     font-weight: 600;
     margin-bottom: 15px;
