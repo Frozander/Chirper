@@ -5,15 +5,13 @@ This module handles the endpoints for post creation, editing, liking.
 It also handles the same operations for comments (except editing).
 """
 
-from flask import (
-    Blueprint, flash, redirect, render_template, url_for, request
-)
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user
 from werkzeug.exceptions import abort
 
 from chirper.auth import login_required
-from chirper.database import db, Post, Comment
-from chirper.forms import PostForm, CommentForm
+from chirper.database import Comment, Post, db
+from chirper.forms import CommentForm, PostForm
 
 bp = Blueprint('posts', __name__, url_prefix='/posts')
 

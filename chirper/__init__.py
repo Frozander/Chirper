@@ -8,12 +8,12 @@ import os
 
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-from flask_login import login_required, current_user
+from flask_login import current_user
+from flask_minify import minify
 from flask_nav import register_renderer
+from flask_obscure import Obscure
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
-from flask_minify import minify
-from flask_obscure import Obscure
 
 from . import auth, posts, user
 from .database import db

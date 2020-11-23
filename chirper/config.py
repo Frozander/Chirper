@@ -1,5 +1,6 @@
-from dotenv import load_dotenv
 from os import getenv, path
+
+from dotenv import load_dotenv
 
 env_path = path.abspath('../.env')
 load_dotenv(env_path)

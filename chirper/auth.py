@@ -5,8 +5,8 @@ This module handles all the requests to 'domainname/auth/*',
  like 'login', 'register' and 'logout'.
 """
 
-from flask import (Blueprint, flash, g, redirect,
-                   render_template, request, url_for)
+from flask import (Blueprint, flash, g, redirect, render_template, request,
+                   url_for)
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
 # import db for database management

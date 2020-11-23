@@ -5,9 +5,10 @@ Creates WTForms Classes for the various forms (LoginForm, RegisterForm etc.)
 """
 
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
+from flask_wtf.file import FileAllowed, FileField, FileRequired
+from wtforms import (BooleanField, PasswordField, StringField, SubmitField,
+                     TextAreaField)
 from wtforms.validators import DataRequired, Email, Length
-from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 
 class LoginForm(FlaskForm):

@@ -4,14 +4,11 @@ Chiper.USer
 This module handles the endpoints for profile page and user utils.
 """
 
-from flask import (
-    Blueprint, flash, redirect, render_template, url_for, request
-)
+from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user
-from werkzeug.exceptions import abort
 
 from chirper.auth import login_required
-from chirper.database import db, Post, Comment, User
+from chirper.database import User
 from chirper.forms import UploadProfileForm
 
 bp = Blueprint('user', __name__, url_prefix='/user')
