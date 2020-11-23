@@ -8,7 +8,7 @@ import os
 
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-from flask_login import login_required
+from flask_login import login_required, current_user
 from flask_nav import register_renderer
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
@@ -109,8 +109,9 @@ def create_app(test_config=None):
 
     # TODO: Turn this to a infinite scroll using API calls with JSON returns
     @app.route('/', methods=['GET', 'POST'])
-    @login_required
     def index():
+        if not current_user.is_authenticated and current_user.is_anonymous:
+            return render_template('welcome.html')
         post_list = posts.Post.query.order_by(posts.Post.created.desc()).all()
 
         return render_template('base.html', posts=post_list)
