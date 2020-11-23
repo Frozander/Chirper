@@ -8,7 +8,6 @@ from flask_bootstrap.nav import BootstrapRenderer
 from flask_login import current_user
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
-from chirper.obscure import obscure
 
 
 class CustomRenderer(BootstrapRenderer):

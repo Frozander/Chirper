@@ -13,11 +13,11 @@ from flask_nav import register_renderer
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 from flask_minify import minify
+from flask_obscure import Obscure
 
 from . import auth, posts, user
 from .database import db
 from .navigation import CustomRenderer, nav
-from .obscure import obscure
 
 # Content Security Policy
 # Allows using Cloudflare CDN to get Bootstrap
@@ -74,7 +74,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     # Obscure
-    obscure.init_app(app, salt=app.config['OBSCURE_SALT'])
+    obscure = Obscure(app)
     # For CSRF Protection
     csrf = CSRFProtect(app)
     # Minify HTML, JS, CSS
