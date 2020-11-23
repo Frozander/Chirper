@@ -47,6 +47,9 @@ def settings(user_id):
     """
 
     user = User.query.filter_by(id=user_id).first_or_404()
+    if current_user.id != user.id:
+        flash('You cannot see others settings', category='danger')
+        return redirect(url_for('user.profile', user_id=user_id))
     upload_form = UploadProfileForm()
     return render_template('user/settings.html', user=user, upload_form=upload_form)
 
