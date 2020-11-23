@@ -82,7 +82,10 @@
                 <span class="glyphicon glyphicon-pencil"></span>
             </a>
             {% endif %}
-            <b>by {{ post.author_name.username }}</b>
+            <b>by <a aria-hidden="true" href="{{ url_for('user.profile', user_id=post.author_id) }}">
+                    {{ post.author_name.username }}
+                </a>
+            </b>
         </div>
 
     </article>
@@ -90,7 +93,7 @@
     <hr>
     {% endif %}
     {% endfor %}
-    <hr class="solid">
+    <hr class=" solid">
 </div>
 {% endblock %}
 

@@ -25,7 +25,10 @@
         <header>
             <h1>{{ post.title }}</h1>
             <b>
-                by {{ post.author_name.username }}
+                by
+                <a aria-hidden="true" href="{{ url_for('user.profile', user_id=post.author_id) }}">
+                    {{ post.author_name.username }}
+                </a>
             </b>
         </header>
         <hr>
@@ -88,7 +91,10 @@
                         <span class="date sub-text">
                             on {{ comment.created }}
                             &nbsp;&nbsp;
-                            by {{ comment.author_name.username }}
+                            by
+                            <a aria-hidden="true" href="{{ url_for('user.profile', user_id=post.author_id) }}">
+                                {{ comment.author_name.username }}
+                            </a>
                         </span>
                         <br>
                         <span class="sub-text">
