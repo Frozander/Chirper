@@ -60,6 +60,7 @@ def create_app(test_config=None):
             app.instance_path, 'db_repository'),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         WTF_CSRF_ENABLED=True,
+        BOOTSTRAP_CDN_FORCE_SSL=True
     )
 
     # Enable white-space trimming (USELESS WITH MINIFY)

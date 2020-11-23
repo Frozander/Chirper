@@ -1,7 +1,16 @@
 {% extends "bootstrap/base.html" %}
 
+{% block html_attribs %}
+lang="en"
+{% endblock %}
+
 {% block head %}
 {{ super() }}
+<meta charset="UTF-8">
+<meta name="description" content="Minimal Social Network">
+<meta name="keywords" content="Social, Network, Chirper">
+<meta name="author" content="Frozander">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- favicons -->
 <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
