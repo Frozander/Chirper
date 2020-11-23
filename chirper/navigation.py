@@ -8,6 +8,7 @@ from flask_bootstrap.nav import BootstrapRenderer
 from flask_login import current_user
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
+from chirper.obscure import obscure
 
 
 class CustomRenderer(BootstrapRenderer):
@@ -40,7 +41,8 @@ def create_navbar():
 
     views = [home_view]
     if current_user.is_authenticated:
-        profile_view = View('Profile', 'user.profile', user_id=current_user.id)
+        profile_view = View('Profile', 'user.profile',
+                            user_id=current_user.id)
         views.append(create_post_view)
         views.append(profile_view)
         views.append(logout_view)

@@ -41,7 +41,7 @@ def get_one_post(id, check_author=True):
     return post
 
 
-@bp.route('/<int:id>', methods=['GET', 'POST'])
+@bp.route('/<b64:id>', methods=['GET', 'POST'])
 @login_required
 def post_page(id):
     """
@@ -70,7 +70,7 @@ def post_page(id):
     return render_template('posts/post.html', post=post, comments=comments, comment_form=comment_form)
 
 
-@bp.route('/comment/<int:id>/delete')
+@bp.route('/comment/<b64:id>/delete')
 @login_required
 def delete_comment(id):
     """
@@ -88,7 +88,7 @@ def delete_comment(id):
     return redirect(request.referrer)
 
 
-@bp.route('/comment/<int:id>/<action>')
+@bp.route('/comment/<b64:id>/<action>')
 @login_required
 def like_comment(id, action):
     """
@@ -140,7 +140,7 @@ def create():
                            form=post_form)
 
 
-@bp.route('/<int:id>/edit', methods=['GET', 'POST'])
+@bp.route('/<b64:id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit(id):
     """
@@ -176,7 +176,7 @@ def edit(id):
         return render_template('posts/edit.html', form=post_form, post=post)
 
 
-@bp.route('/<int:id>/delete', methods=['POST', 'GET'])
+@bp.route('/<b64:id>/delete', methods=['POST', 'GET'])
 @login_required
 def delete(id):
     """
@@ -198,7 +198,7 @@ def delete(id):
     return redirect(url_for('index'))
 
 
-@bp.route('/like/<int:post_id>/<action>')
+@bp.route('/like/<b64:post_id>/<action>')
 @login_required
 def like_action(post_id, action):
     """

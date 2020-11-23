@@ -53,7 +53,7 @@
     {% for post in posts %}
     <article class="post">
         <a href="{{ url_for('posts.post_page', id=post.id, next=request.path)}}">
-            <header id="{{ post.id }}">
+            <header id="{{ post.id | b64}}">
                 <div>
                     <h1>{{ post.title }}</h1>
                 </div>
@@ -62,11 +62,11 @@
         </a>
         <div class="row-fluid">
             {% if current_user.has_liked_post(post) %}
-            <a href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}#{{ post.id }}">
+            <a href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}#{{ post.id | b64 }}">
                 <span class="glyphicon glyphicon-heart"></span>
             </a>
             {% else %}
-            <a href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}#{{ post.id }}">
+            <a href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}#{{ post.id | b64 }}">
                 <span class="glyphicon glyphicon-heart-empty"></span>
             </a>
             {% endif %}

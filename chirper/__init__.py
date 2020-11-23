@@ -17,6 +17,7 @@ from flask_minify import minify
 from . import auth, posts, user
 from .database import db
 from .navigation import CustomRenderer, nav
+from .obscure import obscure
 
 # Content Security Policy
 # Allows using Cloudflare CDN to get Bootstrap
@@ -72,6 +73,8 @@ def create_app(test_config=None):
         # Laod the test config if passed in
         app.config.from_mapping(test_config)
 
+    # Obscure
+    obscure.init_app(app, salt=app.config['OBSCURE_SALT'])
     # For CSRF Protection
     csrf = CSRFProtect(app)
     # Minify HTML, JS, CSS
