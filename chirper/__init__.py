@@ -15,6 +15,7 @@ from flask_nav import register_renderer
 from flask_obscure import Obscure
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
+from flask_bootstrap import WebCDN
 
 from . import auth, posts, user
 from .database import db
@@ -79,6 +80,9 @@ def create_app(test_config=None):
                         )
     # Bootstrap Wrapper
     bootstrap = Bootstrap(app)
+    app.extensions['bootstrap']['cdns']['jquery'] = WebCDN(
+        '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/'
+    )
     # Initialize Database from database.py where models are created
     db.init_app(app)
     # Migration
