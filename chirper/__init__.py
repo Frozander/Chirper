@@ -9,6 +9,7 @@ import os
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_login import current_user
+from flask_migrate import Migrate
 from flask_minify import minify
 from flask_nav import register_renderer
 from flask_obscure import Obscure
@@ -53,15 +54,6 @@ def create_app(test_config=None):
 
     # Create and configure the app
     app = Flask(__name__)
-    app.config.from_mapping(
-        SQLALCHEMY_DATABASE_URI='sqlite:///' +
-        os.path.join(app.instance_path, 'app.db'),
-        SQLALCHEMY_MIGRATE_REPO=os.path.join(
-            app.instance_path, 'db_repository'),
-        SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        WTF_CSRF_ENABLED=True,
-        BOOTSTRAP_CDN_FORCE_SSL=True
-    )
 
     # Enable white-space trimming (USELESS WITH MINIFY)
     # app.jinja_env.trim_blocks = True
@@ -89,6 +81,8 @@ def create_app(test_config=None):
     bootstrap = Bootstrap(app)
     # Initialize Database from database.py where models are created
     db.init_app(app)
+    # Migration
+    migrate = Migrate(app, db)
     # Initialize flask-nav
     nav.init_app(app)
     register_renderer(app, 'custom', CustomRenderer)
