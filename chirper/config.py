@@ -2,8 +2,7 @@ from os import getenv, path
 
 from dotenv import load_dotenv
 
-env_path = path.abspath('../.env')
-load_dotenv(env_path)
+load_dotenv()
 
 # Read environment vars, if they don't exist use default
 
