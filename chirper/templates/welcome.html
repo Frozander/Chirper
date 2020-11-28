@@ -1,0 +1,74 @@
+<!-- 
+ADD A WELCOME PAGE IF USER IS ANONYMOUS (NOT LOGGED IN)
+&& TRIES TO GO TO INDEX
+ -->
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+{{ super() }}
+<!-- favicons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="194x194" href="/static/favicon/favicon-194x194.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/static/favicon/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png">
+<link rel="manifest" href="/static/favicon/site.webmanifest">
+<link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/static/favicon/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Chirper">
+<meta name="application-name" content="Chirper">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/static/favicon/browserconfig.xml">
+<meta name="theme-color" content="#2c2c2c">
+{% endblock %}
+
+{% block title %}Chirper | Welcome{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Changa:wght@200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='welcome.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+{{ nav.chirper_navbar.render(renderer='custom') }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <!-- <strong>Title</strong> --> {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="welcome-margin">
+        <div class="welcome-splash">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" class="img-responsive" alt="">
+        </div>
+        <div class="welcome-title">
+            <div class="welcome-title-main">
+                Chirper
+            </div>
+            <div class="welcome-title-sub">
+                Minimal Social Network
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block scripts %}
+    {{ super() }}
+
+    {% endblock %}

@@ -1,0 +1,49 @@
+:root {
+    --palette-white: #ffffff;
+    --palette-black: #262626;
+    --palette-orange: #FF7F11;
+    --palette-red: #FF1B1C;
+    --palette-pink: #EE4266;
+    --palette-logo-red: #f03030;
+    --palette-logo-orange: #f06330;
+  }
+
+  .media-body {
+    transform: scale(1)!important;
+    transform-origin: 0 0!important;
+    zoom: inherit!important;
+  }
+
+.welcome-margin {
+    margin: 20px 0;
+  }
+  
+  .welcome-splash img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    max-width: 300px;
+  }
+  
+  .welcome-title {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .welcome-title-main {
+    color: var(--palette-logo-orange);
+    font-size: min(15vw, 120px);
+    font-family: 'Changa', sans-serif;
+    font-weight: 600;
+    margin-bottom: 7px;
+  }
+  
+  .welcome-title-sub {
+    text-transform: uppercase;
+    color: var(--palette-black);
+    font-size: min(5vw, 36px);
+    font-family: 'Changa', sans-serif;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }

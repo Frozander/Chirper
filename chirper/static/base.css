@@ -8,6 +8,12 @@
   --palette-logo-orange: #f06330;
 }
 
+.media-body {
+  transform: scale(1)!important;
+  transform-origin: 0 0!important;
+  zoom: inherit!important;
+}
+
 body {
   padding-top: 50px;
 }
@@ -36,6 +42,7 @@ h1 {
 
 a:any-link {
   text-decoration: none;
+  color: var(--palette-black);
 }
 
 /* Dashed border */
@@ -131,7 +138,7 @@ display:inline-block;
   margin:0;
 }
 .sub-text {
-  color:#aaa;
+  color:var(--palette-black);
   font-family:verdana;
   font-size:11px;
 }

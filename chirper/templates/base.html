@@ -1,7 +1,16 @@
 {% extends "bootstrap/base.html" %}
 
+{% block html_attribs %}
+lang="en"
+{% endblock %}
+
 {% block head %}
 {{ super() }}
+<meta charset="UTF-8">
+<meta name="description" content="Minimal Social Network">
+<meta name="keywords" content="Social, Network, Chirper">
+<meta name="author" content="Frozander">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- favicons -->
 <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
@@ -53,7 +62,7 @@
     {% for post in posts %}
     <article class="post">
         <a href="{{ url_for('posts.post_page', id=post.id, next=request.path)}}">
-            <header id="{{ post.id }}">
+            <header id="{{ post.id | b64}}">
                 <div>
                     <h1>{{ post.title }}</h1>
                 </div>
@@ -62,11 +71,11 @@
         </a>
         <div class="row-fluid">
             {% if current_user.has_liked_post(post) %}
-            <a href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}#{{ post.id }}">
+            <a href="{{ url_for('posts.like_action', post_id=post.id, action='unlike') }}#{{ post.id | b64 }}">
                 <span class="glyphicon glyphicon-heart"></span>
             </a>
             {% else %}
-            <a href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}#{{ post.id }}">
+            <a href="{{ url_for('posts.like_action', post_id=post.id, action='like') }}#{{ post.id | b64 }}">
                 <span class="glyphicon glyphicon-heart-empty"></span>
             </a>
             {% endif %}
@@ -82,7 +91,10 @@
                 <span class="glyphicon glyphicon-pencil"></span>
             </a>
             {% endif %}
-            <b>by {{ post.author_name.username }}</b>
+            <b>by <a aria-hidden="true" href="{{ url_for('user.profile', user_id=post.author_id) }}">
+                    {{ post.author_name.username }}
+                </a>
+            </b>
         </div>
 
     </article>
@@ -90,7 +102,7 @@
     <hr>
     {% endif %}
     {% endfor %}
-    <hr class="solid">
+    <hr class=" solid">
 </div>
 {% endblock %}
 

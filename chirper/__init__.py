@@ -8,14 +8,16 @@ import os
 
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-from flask_login import LoginManager, UserMixin, login_required
+from flask_login import current_user
+from flask_migrate import Migrate
+from flask_minify import minify
 from flask_nav import register_renderer
-from flask_sqlalchemy import SQLAlchemy
+from flask_obscure import Obscure
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
-from flask_minify import minify
+from flask_bootstrap import WebCDN
 
-from . import auth, posts
+from . import auth, posts, user
 from .database import db
 from .navigation import CustomRenderer, nav
 
@@ -53,14 +55,6 @@ def create_app(test_config=None):
 
     # Create and configure the app
     app = Flask(__name__)
-    app.config.from_mapping(
-        SQLALCHEMY_DATABASE_URI='sqlite:///' +
-        os.path.join(app.instance_path, 'app.db'),
-        SQLALCHEMY_MIGRATE_REPO=os.path.join(
-            app.instance_path, 'db_repository'),
-        SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        WTF_CSRF_ENABLED=True,
-    )
 
     # Enable white-space trimming (USELESS WITH MINIFY)
     # app.jinja_env.trim_blocks = True
@@ -73,6 +67,8 @@ def create_app(test_config=None):
         # Laod the test config if passed in
         app.config.from_mapping(test_config)
 
+    # Obscure
+    obscure = Obscure(app)
     # For CSRF Protection
     csrf = CSRFProtect(app)
     # Minify HTML, JS, CSS
@@ -84,8 +80,13 @@ def create_app(test_config=None):
                         )
     # Bootstrap Wrapper
     bootstrap = Bootstrap(app)
+    app.extensions['bootstrap']['cdns']['jquery'] = WebCDN(
+        '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/'
+    )
     # Initialize Database from database.py where models are created
     db.init_app(app)
+    # Migration
+    migrate = Migrate(app, db)
     # Initialize flask-nav
     nav.init_app(app)
     register_renderer(app, 'custom', CustomRenderer)
@@ -103,11 +104,13 @@ def create_app(test_config=None):
     # Register Blueprints
     app.register_blueprint(auth.bp)
     app.register_blueprint(posts.bp)
+    app.register_blueprint(user.bp)
 
     # TODO: Turn this to a infinite scroll using API calls with JSON returns
     @app.route('/', methods=['GET', 'POST'])
-    @login_required
     def index():
+        if not current_user.is_authenticated and current_user.is_anonymous:
+            return render_template('welcome.html')
         post_list = posts.Post.query.order_by(posts.Post.created.desc()).all()
 
         return render_template('base.html', posts=post_list)

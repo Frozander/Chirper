@@ -1,12 +1,17 @@
-from flask import (
-    Blueprint, flash, redirect, render_template, url_for, request
-)
+"""
+Chiper.Posts
+
+This module handles the endpoints for post creation, editing, liking.
+It also handles the same operations for comments (except editing).
+"""
+
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user
 from werkzeug.exceptions import abort
 
 from chirper.auth import login_required
-from chirper.database import db, Post, Comment
-from chirper.forms import PostForm, CommentForm
+from chirper.database import Comment, Post, db
+from chirper.forms import CommentForm, PostForm
 
 bp = Blueprint('posts', __name__, url_prefix='/posts')
 
@@ -41,11 +46,11 @@ def get_one_post(id, check_author=True):
     return post
 
 
-@bp.route('/<int:id>', methods=['GET', 'POST'])
+@bp.route('/<b64:id>', methods=['GET', 'POST'])
 @login_required
 def post_page(id):
     """
-    Endpoint: posts/<int:id>
+    Endpoint: posts/<b64:id>
 
     Handles : GET, POST
 
@@ -70,16 +75,17 @@ def post_page(id):
     return render_template('posts/post.html', post=post, comments=comments, comment_form=comment_form)
 
 
-@bp.route('/comment/<int:id>/delete')
+@bp.route('/comment/<b64:id>/delete')
 @login_required
 def delete_comment(id):
     """
-    Endpoint: comment/<int:id>/delete
+    Endpoint: comment/<b64:id>/delete
 
     Handles : GET, POST
 
     API endpoint for deleting comments. Needs authorization of the poster
     """
+
     comment = Comment.query.filter_by(id=id).first_or_404()
 
     if current_user.id == comment.author_id:
@@ -88,16 +94,17 @@ def delete_comment(id):
     return redirect(request.referrer)
 
 
-@bp.route('/comment/<int:id>/<action>')
+@bp.route('/comment/<b64:id>/<action>')
 @login_required
 def like_comment(id, action):
     """
-    Endpoint: comment/<int:id>/like
+    Endpoint: comment/<b64:id>/like
 
     Handles : GET, POST
 
     API endpoint for liking comments.
     """
+
     comment = Comment.query.filter_by(id=id).first_or_404()
 
     if action == 'like':
@@ -140,11 +147,11 @@ def create():
                            form=post_form)
 
 
-@bp.route('/<int:id>/edit', methods=['GET', 'POST'])
+@bp.route('/<b64:id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit(id):
     """
-    Endpoint: posts/<int:id>/edit
+    Endpoint: posts/<b64:id>/edit
 
     Handles : GET, POST
 
@@ -176,11 +183,11 @@ def edit(id):
         return render_template('posts/edit.html', form=post_form, post=post)
 
 
-@bp.route('/<int:id>/delete', methods=['POST', 'GET'])
+@bp.route('/<b64:id>/delete', methods=['POST', 'GET'])
 @login_required
 def delete(id):
     """
-    Endpoint: posts/<int:id>/delete
+    Endpoint: posts/<b64:id>/delete
 
     Handles : POST
 
@@ -198,11 +205,11 @@ def delete(id):
     return redirect(url_for('index'))
 
 
-@bp.route('/like/<int:post_id>/<action>')
+@bp.route('/like/<b64:post_id>/<action>')
 @login_required
 def like_action(post_id, action):
     """
-    Endpoint: /like/<int:post_id>/<action>
+    Endpoint: /like/<b64:post_id>/<action>
 
     Handles : POST
 

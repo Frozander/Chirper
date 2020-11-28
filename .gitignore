@@ -151,3 +151,6 @@ cython_debug/
 
 # Ignore user images but allow others
 instance/
+
+# Ignore SSL key and certs
+ssl/
