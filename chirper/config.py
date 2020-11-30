@@ -5,6 +5,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Read environment vars, if they don't exist use default
+# You can set these Environment Variables by creating a .env file in the root of the repository
+# Or add more variables depending on your choices. The ones that are displayed here should always exist
+# Like SQLALCHEMY_DATABASE_URI, OBSCURE_SALT, SECRET_KEY etc. to provide a secure and consistent runtime
+# With the intended actions like forcing SSL for Bootstrap CDN, Enabling CSRF Protection etc.
 
 # Flask Values
 FLASK_APP = getenv('FLASK_APP', 'chirper')
