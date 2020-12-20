@@ -30,5 +30,55 @@ by extending the profile page and modifying the user_content block -->
 {% endblock %}
 
 {% block user_content %}
-Your comments are here
+<div class="comment-section" id="Comments">
+    <label>Comments</label>
+    <div class="actionBox">
+        <ul class="commentList">
+            {% for comment in comments %}
+            <li id="c{{ comment.id | b64 }}">
+                <div class="commenterImage">
+                    <!-- Use commenter image when profiles are added -->
+                    <img src=" {{url_for('static', filename='img/50.jpg')}} " />
+                </div>
+                <div class="commentText">
+                    <p class="">
+                        {{ comment.body }}
+                    </p>
+                    <span class="date sub-text">
+                        on {{ comment.created }}
+                        &nbsp;&nbsp;
+                        by
+                        <a aria-hidden="true" href="{{ url_for('user.profile', user_id=comment.author_id) }}">
+                            {{ comment.author_name.username }}
+                        </a>
+                    </span>
+                    <br>
+                    <span class="sub-text">
+                        {% if current_user.has_liked_comment(comment) %}
+                        <a
+                            href="{{ url_for('posts.like_comment', id=comment.id, action='unlike') }}#c{{ comment.id | b64 }}">
+                            <span class="glyphicon glyphicon-heart"></span>
+                        </a>
+                        {% else %}
+                        <a
+                            href="{{ url_for('posts.like_comment', id=comment.id, action='like') }}#c{{ comment.id | b64 }}">
+                            <span class="glyphicon glyphicon-heart-empty"></span>
+                        </a>
+                        {% endif %}
+                        {{ comment.likes.count() }} Likes
+                        &nbsp;&nbsp;
+                        {% if current_user.id == comment.author_id %}
+                        <a href="{{ url_for('posts.delete_comment', id=comment.id) }}">
+                            <span class="glyphicon glyphicon glyphicon-remove"></span>
+                        </a>
+                        Delete
+                        {% endif %}
+                    </span>
+                </div>
+            </li>
+            <hr class="dotted">
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}

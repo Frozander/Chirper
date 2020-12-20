@@ -8,7 +8,7 @@ from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user
 
 from chirper.auth import login_required
-from chirper.database import User
+from chirper.database import User, Post, db, PostLike
 from chirper.forms import UploadProfileForm
 
 bp = Blueprint('user', __name__, url_prefix='/user')
@@ -64,11 +64,13 @@ def liked(user_id):
     """
 
     user = User.query.filter_by(id=user_id).first_or_404()
-    return render_template('user/liked.html', user=user)
+    posts = db.session.query(Post).join(
+        PostLike, Post.id == PostLike.post_id).filter(PostLike.user_id == user_id).order_by(Post.created.desc())
+    return render_template('user/liked.html', user=user, posts=posts)
 
 
-@bp.route('/<b64:user_id>/comments', methods=['GET', 'POST'])
-@login_required
+@ bp.route('/<b64:user_id>/comments', methods=['GET', 'POST'])
+@ login_required
 def comments(user_id):
     """
     Endpoint: /<b64:user_id>/comments
@@ -80,4 +82,4 @@ def comments(user_id):
     """
 
     user = User.query.filter_by(id=user_id).first_or_404()
-    return render_template('user/comments.html', user=user)
+    return render_template('user/comments.html', user=user, comments=user.commented)

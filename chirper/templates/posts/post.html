@@ -92,7 +92,7 @@
                             on {{ comment.created }}
                             &nbsp;&nbsp;
                             by
-                            <a aria-hidden="true" href="{{ url_for('user.profile', user_id=post.author_id) }}">
+                            <a aria-hidden="true" href="{{ url_for('user.profile', user_id=comment.author_id) }}">
                                 {{ comment.author_name.username }}
                             </a>
                         </span>

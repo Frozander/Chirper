@@ -16,6 +16,7 @@
 
 body {
   padding-top: 50px;
+  overflow-wrap: break-word;
 }
 .starter-template {
   padding: 40px 15px;
@@ -136,6 +137,7 @@ display:inline-block;
 }
 .commentText p {
   margin:0;
+  overflow-wrap: break-word;
 }
 .sub-text {
   color:var(--palette-black);

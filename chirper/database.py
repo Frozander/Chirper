@@ -6,6 +6,8 @@ Creates the database instance and the models
 
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import backref
+from sqlalchemy.sql.schema import ForeignKey
 from werkzeug.security import check_password_hash, generate_password_hash
 
 db = SQLAlchemy()
@@ -27,7 +29,7 @@ class User(UserMixin, db.Model):
 
     posts = db.relationship(
         'Post', backref='user', lazy='dynamic', order_by='Post.created.desc()', cascade="all, delete-orphan")
-    
+
     # Like System
     liked = db.relationship(
         'PostLike',
@@ -39,7 +41,7 @@ class User(UserMixin, db.Model):
     commented = db.relationship(
         'Comment',
         foreign_keys='Comment.author_id',
-        backref='user', lazy='dynamic'
+        backref='user', lazy='dynamic', order_by='Comment.created.desc()'
     )
 
     commentliked = db.relationship(
