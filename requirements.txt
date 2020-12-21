@@ -14,6 +14,6 @@ Flask_Obscure==1.0
 flask_nav==0.6
 Flask_WTF==0.14.3
 python-dotenv==0.15.0
-email-validator==1.1.1
+email-validator==1.1.2
 # gevent server
 gevent==20.9.0
