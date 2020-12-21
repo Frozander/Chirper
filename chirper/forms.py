@@ -109,3 +109,52 @@ class UploadProfileForm(FlaskForm):
         FileAllowed(['jpg', 'png'], 'Images only!')
     ])
     submit = SubmitField('Upload')
+
+
+class SettingsForm(FlaskForm):
+    """
+    SettingsForm class
+    """
+    username = StringField('Username',
+                           validators=[
+                               Length(min=3, max=20,
+                                      message="Username has to be between 3-20 characters long.")
+                           ],
+                           render_kw={'placeholder': 'Username'})
+    email = StringField('E-Mail',
+                        validators=[
+                            Email("Enter a valid E-Mail")
+                        ],
+                        render_kw={'placeholder': 'E-Mail'})
+    password_new = PasswordField('New Password',
+                                 validators=[
+                                     Length(
+                                         max=80, message="Max password length is 80 characters.")
+                                 ],
+                                 render_kw={'placeholder': 'New Password'})
+    password_old = PasswordField('Old Password',
+                                 validators=[
+                                     Length(
+                                         max=80, message="Max password length is 80 characters.")
+                                 ],
+                                 render_kw={'placeholder': 'Old Password'})
+
+    submit = SubmitField('Save')
+
+
+class UpdateForm(FlaskForm):
+    """
+    UpdateForm class
+    """
+
+    username = StringField('Username',
+                           validators=[
+                               Length(min=3, max=20,
+                                      message="Username has to be between 3-20 characters long.")
+                           ],
+                           render_kw={'placeholder': 'Username'})
+    email = StringField('E-Mail',
+                        validators=[
+                            Email("Enter a valid E-Mail")
+                        ],
+                        render_kw={'placeholder': 'E-Mail'})

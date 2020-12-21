@@ -30,5 +30,12 @@ by extending the profile page and modifying the user_content block -->
 {% endblock %}
 
 {% block user_content %}
-This is account settings
+<form class="form-signin" action="settings" method="post" name="settings">
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.username) }}
+    {{ wtf.form_field(form.email) }}
+    {{ wtf.form_field(form.password_new) }}
+    {{ wtf.form_field(form.password_old) }}
+    {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+</form>
 {% endblock %}

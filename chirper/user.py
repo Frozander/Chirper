@@ -9,7 +9,7 @@ from flask_login import current_user
 
 from chirper.auth import login_required
 from chirper.database import User, Post, db, PostLike
-from chirper.forms import UploadProfileForm
+from chirper.forms import SettingsForm, UpdateForm
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -47,8 +47,35 @@ def settings(user_id):
     if current_user.id != user.id:
         flash('You cannot see others settings', category='danger')
         return redirect(url_for('user.profile', user_id=user_id))
-    upload_form = UploadProfileForm()
-    return render_template('user/settings.html', user=user, upload_form=upload_form)
+    settings_form = SettingsForm()
+    update_form = UpdateForm()
+    settings_form.username.render_kw = {'placeholder': user.username}
+    settings_form.email.render_kw = {'placeholder': user.email}
+
+    if settings_form.is_submitted():
+        username_new = settings_form.username.data
+        email_new = settings_form.email.data
+        password_new = settings_form.password_new.data
+        password_old = settings_form.password_old.data
+
+        update_form.email.data = email_new or user.email
+        update_form.username.data = username_new or user.username
+
+        if user.check_password(password_old):
+            if update_form.validate():
+                user.username = update_form.username.data
+                user.email = update_form.email.data
+                if password_new != "":
+                    print(f"changing password to: {password_new}")
+                    user.set_password(password_new)
+                db.session.commit()
+                flash("Valid settings have been updated!", category='info')
+            else:
+                flash("Form fields are not validated", category='danger')
+        else:
+            flash("You must enter the old password to make changes",
+                  category='danger')
+    return render_template('user/settings.html', user=user, form=settings_form)
 
 
 @bp.route('/<b64:user_id>/liked', methods=['GET', 'POST'])
