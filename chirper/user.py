@@ -96,8 +96,8 @@ def liked(user_id):
     return render_template('user/liked.html', user=user, posts=posts)
 
 
-@ bp.route('/<b64:user_id>/comments', methods=['GET', 'POST'])
-@ login_required
+@bp.route('/<b64:user_id>/comments', methods=['GET', 'POST'])
+@login_required
 def comments(user_id):
     """
     Endpoint: /<b64:user_id>/comments
