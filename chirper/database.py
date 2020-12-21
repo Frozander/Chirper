@@ -6,8 +6,6 @@ Creates the database instance and the models
 
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import backref
-from sqlalchemy.sql.schema import ForeignKey
 from werkzeug.security import check_password_hash, generate_password_hash
 
 db = SQLAlchemy()
