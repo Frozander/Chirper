@@ -69,14 +69,14 @@ class PostForm(FlaskForm):
     title = StringField('Title',
                         validators=[
                             DataRequired(),
-                            Length(min=3, max=50,
+                            Length(min=3, max=80,
                                    message="Title must have 3-50 characters")
                         ],
                         render_kw={'placeholder': 'Enter Title'})
     body = TextAreaField('Message',
                          validators=[
                              DataRequired(),
-                             Length(min=3, max=240,
+                             Length(min=3, max=512,
                                     message="Content must have 3-240 characters")
                          ],
                          render_kw={'placeholder': 'Share your thoughts...'})
@@ -92,7 +92,7 @@ class CommentForm(FlaskForm):
     body = TextAreaField('Message',
                          validators=[
                              DataRequired(),
-                             Length(min=3, max=240,
+                             Length(min=3, max=256,
                                     message="Content must have 3-240 characters")
                          ],
                          render_kw={'placeholder': 'Share your thoughts...'})
