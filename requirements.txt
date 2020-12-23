@@ -7,7 +7,7 @@ Flask==1.1.2
 Flask_SQLAlchemy==2.4.4
 Flask_Login==0.5.0
 flask_talisman==0.7.0
-gevent==20.9.0
+gevent==20.12.0
 alembic==1.4.3
 Werkzeug==1.0.1
 Flask_Obscure==1.0
@@ -16,4 +16,4 @@ Flask_WTF==0.14.3
 python-dotenv==0.15.0
 email-validator==1.1.2
 # gevent server
-gevent==20.9.0
+gevent==20.12.0
