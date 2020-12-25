@@ -38,7 +38,7 @@ by extending the profile page and modifying the user_content block -->
             <li id="c{{ comment.id | b64 }}">
                 <div class="commenterImage">
                     <!-- Use commenter image when profiles are added -->
-                    <img src=" {{url_for('static', filename='img/50.jpg')}} " />
+                    <img src="{{ url_for('static', filename='img/profile/' + user.picture) }}" />
                 </div>
                 <div class="commentText">
                     <p class="">
@@ -47,10 +47,7 @@ by extending the profile page and modifying the user_content block -->
                     <span class="date sub-text">
                         on {{ comment.created }}
                         &nbsp;&nbsp;
-                        by
-                        <a aria-hidden="true" href="{{ url_for('user.profile', user_id=comment.author_id) }}">
-                            {{ comment.author_name.username }}
-                        </a>
+                        by {{ comment.author_name.username }}
                     </span>
                     <br>
                     <span class="sub-text">

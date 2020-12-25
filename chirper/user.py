@@ -4,8 +4,7 @@ Chiper.USer
 This module handles the endpoints for profile page and user utils.
 """
 
-from os.path import join, splitext
-import secrets
+from os.path import join
 from PIL import Image
 from flask import Blueprint, current_app, flash, redirect, render_template, url_for
 from flask_login import current_user
@@ -13,18 +12,17 @@ from flask_login import current_user
 from chirper.auth import login_required
 from chirper.database import User, Post, db, PostLike
 from chirper.forms import SettingsForm, UpdateForm
+from chirper.obs import obscure
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
 
-def save_image(form_image):
-    r_name = secrets.token_hex(8)
-    _, ext = splitext(form_image.filename)
-    image_fn = r_name + ext
+def save_image(form_image, f_name):
+    image_fn = f_name + '.png'
     image_path = join(current_app.root_path, 'static/img/profile', image_fn)
 
-    output_size = (300, 300)
-    i = Image.open(form_image)
+    output_size = (150, 150)
+    i = Image.open(form_image).resize((300, 300))
     i.thumbnail(output_size)
     i.save(image_path)
 
@@ -84,7 +82,8 @@ def settings(user_id):
                 user.username = update_form.username.data
                 user.email = update_form.email.data
                 if image_new:
-                    img_file = save_image(image_new)
+                    f_name = obscure.encode_base64(current_user.id)
+                    img_file = save_image(image_new, f_name)
                     current_user.picture = img_file
                 if password_new != "":
                     user.set_password(password_new)
@@ -93,8 +92,6 @@ def settings(user_id):
         else:
             flash("You must enter the old password to make changes",
                   category='danger')
-    img = url_for('static',
-                  filename='img/profile' + current_user.picture)
     return render_template('user/settings.html', user=user, form=settings_form)
 
 

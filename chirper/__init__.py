@@ -12,7 +12,6 @@ from flask_login import current_user
 from flask_migrate import Migrate
 from flask_minify import minify
 from flask_nav import register_renderer
-from flask_obscure import Obscure
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import WebCDN
@@ -20,6 +19,7 @@ from flask_bootstrap import WebCDN
 from . import auth, posts, user
 from .database import db
 from .navigation import CustomRenderer, nav
+from .obs import obscure
 
 # Content Security Policy
 # Allows using Cloudflare CDN to get Bootstrap
@@ -68,7 +68,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     # Obscure
-    obscure = Obscure(app)
+    obscure.init_app(app)
     # For CSRF Protection
     csrf = CSRFProtect(app)
     # Minify HTML, JS, CSS
