@@ -32,7 +32,7 @@ def save_image(form_image, f_name):
 def flash_errors(form):
     for field, errors in form.errors.items():
         for error in errors:
-            flash(f"{getattr(form, field).label.text} Error - {error}", 'danger')
+            flash(f"{error}", 'danger')
 
 
 @bp.route('/<b64:user_id>', methods=['GET', 'POST'])
