@@ -157,3 +157,4 @@ ssl/
 
 # Ignore profile pictures
 chirper/static/img/profile/*
+!chirper/static/img/profile/default.png
