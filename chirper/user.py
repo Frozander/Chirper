@@ -29,6 +29,12 @@ def save_image(form_image, f_name):
     return image_fn
 
 
+def flash_errors(form):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(f"{getattr(form, field).label.text} Error - {error}", 'danger')
+
+
 @bp.route('/<b64:user_id>', methods=['GET', 'POST'])
 @login_required
 def profile(user_id):
@@ -89,9 +95,11 @@ def settings(user_id):
                     user.set_password(password_new)
                 db.session.commit()
                 flash("Valid settings have been updated!", category='info')
+            else:
+                flash_errors(update_form)
         else:
             flash("You must enter the old password to make changes",
-                  category='danger')
+                  category='warning')
     return render_template('user/settings.html', user=user, form=settings_form)
 
 
