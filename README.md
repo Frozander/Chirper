@@ -6,15 +6,45 @@ This project is a simple social media app created using flask.
 
 You are free to add into it as long as it makes sense, see the [CONTRIBUTING.md](CONTRIBUTING.md) for contributions.
 
+## Caution
+At this current stage, there probably are multiple security problems and possible exploits with the application. So do not use it apart from developing it further or do and open an issue if you find a problem.
+
 ## How to run
-Create a ".env" file in the root of the repository and look into the "config.py" file. You can set the parameters there.
+I advise you to create a virtual environment for this app with:
+```
+python -m venv venv
+```
+Then on Windows:
+```
+venv\Scriots\activate.bat
+```
+
+On Linux or MacOS:
+```
+source venv/bin/activate
+```
+
+Install the [requirements](requirements.txt) with:
+```
+python -m pip install -r requirements.txt
+```
+
+Create a ".env" file in the root of the repository and look into the [config.py](chirper/config.py) file. You can set the parameters there. Or even add more into the [config.py](chirper/config.py) if you want.
+
+.env:
+```
+...
+FLASK_APP=chirper
+SECRET_KEY=super_secret_key
+SERVER_NAME=localhost
+SQLALCHEMY_DATABASE_URI=postgresql://username:password@localhost/db_name
+...
+```
 
 If you don't want to, the default values are set for a development environment, it will use SQLite as the project database.
 
 To initialise the database run:
 ```
-flask db init
-flask db migrate
 flask db upgrade
 ```
 
@@ -30,3 +60,23 @@ python serve.py
 ```
 
 As it stands currently there is no set way to host the app as a WSGI application. However it should not be hard to write one yourself.
+
+### Using something other than PSQL
+If you want to use SQLite or any other RDBMS, you need to delete migrations folder and create the new migrations folder. Just make sure you have a driver for your RDBMS.
+
+**Example**: 
+
+.env:
+```
+...
+SQLALCHEMY_DATABASE_URI=mysql://username:password@localhost/db_name
+...
+```
+
+and then run
+
+```
+flask db init
+flask db migrate
+flask db upgrade
+```

@@ -15,5 +15,5 @@ flask_nav==0.6
 flask_talisman==0.7.0
 Pillow==8.0.1
 python-dotenv==0.15.0
-secrets==1.0.2
 email-validator==1.1.2
+psycopg2==2.8.6
