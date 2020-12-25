@@ -22,8 +22,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
-    # p_photo = db.Column(db.String(), unique=False,
-    #                     nullable=False, default='/static/img/50.jpg')
+    picture = db.Column(db.String(20), unique=False,
+                        nullable=False, server_default='default.png')
 
     posts = db.relationship(
         'Post', backref='user', lazy='dynamic', order_by='Post.created.desc()', cascade="all, delete-orphan")

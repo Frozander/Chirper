@@ -4,11 +4,14 @@ Chirper.Forms
 Creates WTForms Classes for the various forms (LoginForm, RegisterForm etc.)
 """
 
+from flask_login import current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField, FileRequired
 from wtforms import (BooleanField, PasswordField, StringField, SubmitField,
                      TextAreaField)
-from wtforms.validators import DataRequired, Email, Length
+from wtforms.validators import DataRequired, Email, Length, ValidationError
+
+from chirper.database import User
 
 
 class LoginForm(FlaskForm):
@@ -99,18 +102,6 @@ class CommentForm(FlaskForm):
     submit = SubmitField('Post')
 
 
-class UploadProfileForm(FlaskForm):
-    """
-    UploadProfileForm class
-    """
-
-    upload = FileField('Image', validators=[
-        FileRequired(),
-        FileAllowed(['jpg', 'png'], 'Images only!')
-    ])
-    submit = SubmitField('Upload')
-
-
 class SettingsForm(FlaskForm):
     """
     SettingsForm class
@@ -138,6 +129,8 @@ class SettingsForm(FlaskForm):
                                          max=80, message="Max password length is 80 characters.")
                                  ],
                                  render_kw={'placeholder': 'Old Password'})
+    picture = FileField('Update Profile Picture', validators=[
+                        FileAllowed(['jpg', 'png'])])
 
     submit = SubmitField('Save')
 
@@ -158,3 +151,17 @@ class UpdateForm(FlaskForm):
                             Email("Enter a valid E-Mail")
                         ],
                         render_kw={'placeholder': 'E-Mail'})
+
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = User.query.filter_by(username=username.data).first()
+            if user:
+                raise ValidationError(
+                    'That username is taken. Please choose a different one.')
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError(
+                    'That email is taken. Please choose a different one.')

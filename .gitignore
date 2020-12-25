@@ -154,3 +154,6 @@ instance/
 
 # Ignore SSL key and certs
 ssl/
+
+# Ignore profile pictures
+chirper/static/img/profile/*
