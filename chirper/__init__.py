@@ -86,7 +86,7 @@ def create_app(test_config=None):
     # Initialize Database from database.py where models are created
     db.init_app(app)
     # Migration
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db, compare_type=True)
     # Initialize flask-nav
     nav.init_app(app)
     register_renderer(app, 'custom', CustomRenderer)
