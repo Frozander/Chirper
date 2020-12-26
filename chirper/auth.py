@@ -74,7 +74,8 @@ def login():
         user = User.query.filter_by(email=login_form.email.data).first()
         if user and user.check_password(password=login_form.password.data):
             login_user(user)
-            db.session.add(user.follow(user))
+            if not user.is_following(user):
+                db.session.add(user.follow(user))
             db.session.commit()
             next_page = request.args.get('next')
             return redirect(next_page or url_for('index'))
