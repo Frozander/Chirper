@@ -29,6 +29,7 @@ login_view = View('Log In', 'auth.login')
 register_view = View('Register', 'auth.register')
 logout_view = View('Logout', 'auth.logout')
 create_post_view = View('Post', 'posts.create')
+follow_feed_view = View('Your Feed', 'follow_feed')
 
 
 @nav.navigation('chirper_navbar')
@@ -42,6 +43,7 @@ def create_navbar():
     if current_user.is_authenticated:
         profile_view = View('Profile', 'user.profile',
                             user_id=current_user.id)
+        views.append(follow_feed_view)
         views.append(create_post_view)
         views.append(profile_view)
         views.append(logout_view)

@@ -11,6 +11,14 @@ from werkzeug.security import check_password_hash, generate_password_hash
 db = SQLAlchemy()
 
 
+followers = db.Table('followers',
+                     db.Column('follower_id', db.Integer,
+                               db.ForeignKey('user.id')),
+                     db.Column('followed_id', db.Integer,
+                               db.ForeignKey('user.id')),
+                     )
+
+
 class User(UserMixin, db.Model):
     """
     User class to define Table structure on the database
@@ -47,6 +55,29 @@ class User(UserMixin, db.Model):
         foreign_keys='CommentLike.user_id',
         backref='user', lazy='dynamic'
     )
+
+    followed = db.relationship('User',
+                               secondary=followers,
+                               primaryjoin=(followers.c.follower_id == id),
+                               secondaryjoin=(followers.c.followed_id == id),
+                               backref=db.backref('followers', lazy='dynamic'),
+                               lazy='dynamic')
+
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+            return self
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+            return self
+
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+
+    def followed_posts(self):
+        return Post.query.join(followers, (followers.c.followed_id == Post.author_id)).filter(followers.c.follower_id == self.id).order_by(Post.created.desc())
 
     def like_comment(self, comment):
         if not self.has_liked_comment(comment):  # If not liked

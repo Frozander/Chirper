@@ -136,3 +136,43 @@ def comments(user_id):
 
     user = User.query.filter_by(id=user_id).first_or_404()
     return render_template('user/comments.html', user=user, comments=user.commented)
+
+
+@bp.route('/<b64:user_id>/follow', methods=['GET', 'POST'])
+@login_required
+def follow(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user is None:
+        flash('User not found!', 'danger')
+        return redirect(url_for('index'))
+    if user_id == current_user.id:
+        flash('You can\'t follow yourself!', 'danger')
+        return redirect(url_for('user.profile', user_id=user_id))
+    u = current_user.follow(user)
+    if u is None:
+        flash(f'Cannot follow {user.username}!', user_id=user_id)
+        return redirect(url_for('user.profile', user_id=user_id))
+    db.session.add(u)
+    db.session.commit()
+    flash(f'You\'re now following {user.username}!', 'success')
+    return redirect(url_for('user.profile', user_id=user_id))
+
+
+@bp.route('/<b64:user_id>/unfollow', methods=['GET', 'POST'])
+@login_required
+def unfollow(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user is None:
+        flash('User not found!', 'danger')
+        return redirect(url_for('index'))
+    if user_id == current_user.id:
+        flash('You can\'t unfollow yourself!', 'danger')
+        return redirect(url_for('user.profile', user_id=user_id))
+    u = current_user.unfollow(user)
+    if u is None:
+        flash(f'Cannot unfollow {user.username}!', user_id=user_id)
+        return redirect(url_for('user.profile', user_id=user_id))
+    db.session.add(u)
+    db.session.commit()
+    flash(f'You have stopped following {user.username}!', 'success')
+    return redirect(url_for('user.profile', user_id=user_id))

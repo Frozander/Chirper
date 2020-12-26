@@ -8,7 +8,7 @@ import os
 
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask_migrate import Migrate
 from flask_minify import minify
 from flask_nav import register_renderer
@@ -112,8 +112,13 @@ def create_app(test_config=None):
         if not current_user.is_authenticated and current_user.is_anonymous:
             return render_template('welcome.html')
         post_list = posts.Post.query.order_by(posts.Post.created.desc()).all()
-
         return render_template('base.html', posts=post_list)
+
+    @app.route('/follow_feed', methods=['GET', 'POST'])
+    @login_required
+    def follow_feed():
+        followed_posts = current_user.followed_posts()
+        return render_template('base.html', posts=followed_posts)
 
     app.add_url_rule('/index', '/')
 
