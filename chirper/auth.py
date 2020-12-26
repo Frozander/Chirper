@@ -74,6 +74,8 @@ def login():
         user = User.query.filter_by(email=login_form.email.data).first()
         if user and user.check_password(password=login_form.password.data):
             login_user(user)
+            db.session.add(user.follow(user))
+            db.session.commit()
             next_page = request.args.get('next')
             return redirect(next_page or url_for('index'))
         flash('Invalid E-Mail/Password Combination', category='danger')
@@ -113,6 +115,7 @@ def register():
             )
             user.set_password(register_form.password.data)
             db.session.add(user)
+            db.session.add(user.follow(user))
             db.session.commit()
             login_user(user)
             return redirect(url_for('index'))
