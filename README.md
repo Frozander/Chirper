@@ -16,7 +16,7 @@ python -m venv venv
 ```
 Then on Windows:
 ```
-venv\Scriots\activate.bat
+venv\Scripts\activate.bat
 ```
 
 On Linux or MacOS:
