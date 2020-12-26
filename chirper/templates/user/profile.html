@@ -35,10 +35,12 @@
                 <!-- SIDEBAR BUTTONS -->
                 <div class="profile-userbuttons">
                     <!-- WE DON'T HAVE FOLLOW/DM SYSTEM (YET) -->
+                    {% if current_user.id != user.id %}
                     {% if not current_user.is_following(user) %}
                     <a href="{{ url_for('user.follow', user_id=user.id) }}" class="btn btn-success btn-sm">Follow</a>
                     {% else %}
                     <a href="{{ url_for('user.unfollow', user_id=user.id) }}" class="btn btn-danger btn-sm">Unfollow</a>
+                    {% endif %}
                     {% endif %}
                     <!-- <button type="button" class="btn btn-danger btn-sm">Message</button> -->
                 </div>
