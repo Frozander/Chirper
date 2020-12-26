@@ -6,7 +6,7 @@ Creates WTForms Classes for the various forms (LoginForm, RegisterForm etc.)
 
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed, FileField, FileRequired
+from flask_wtf.file import FileAllowed, FileField
 from wtforms import (BooleanField, PasswordField, StringField, SubmitField,
                      TextAreaField)
 from wtforms.validators import DataRequired, Email, Length, ValidationError
