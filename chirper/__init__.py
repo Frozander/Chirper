@@ -120,6 +120,10 @@ def create_app(test_config=None):
         followed_posts = current_user.followed_posts()
         return render_template('base.html', posts=followed_posts)
 
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
+
     app.add_url_rule('/index', '/')
 
     return app
