@@ -5,6 +5,7 @@ This module handles the endpoints for profile page and user utils.
 """
 
 from os.path import join
+import secrets
 from PIL import Image
 from flask import Blueprint, current_app, flash, redirect, render_template, url_for
 from flask_login import current_user
@@ -18,7 +19,7 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 
 
 def save_image(form_image, f_name):
-    image_fn = f_name + '.png'
+    image_fn = f"{f_name}_{secrets.token_hex(4)}.png"
     image_path = join(current_app.root_path, 'static/img/profile', image_fn)
 
     output_size = (150, 150)
