@@ -17,7 +17,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import WebCDN
 
 from . import auth, posts, user
-from .database import db
+from .database import db, admin
 from .navigation import CustomRenderer, nav
 from .obs import obscure
 
@@ -67,6 +67,8 @@ def create_app(test_config=None):
         # Laod the test config if passed in
         app.config.from_mapping(test_config)
 
+    # Admin
+    admin.init_app(app)
     # Obscure
     obscure.init_app(app)
     # For CSRF Protection

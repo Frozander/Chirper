@@ -4,9 +4,12 @@ Chirper.Database
 Creates the database instance and the models
 """
 
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
+
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 db = SQLAlchemy()
 
@@ -40,20 +43,20 @@ class User(UserMixin, db.Model):
     liked = db.relationship(
         'PostLike',
         foreign_keys='PostLike.user_id',
-        backref='user', lazy='dynamic'
+        backref='user', lazy='dynamic', cascade="all, delete-orphan"
     )
 
     # Comment System
     commented = db.relationship(
         'Comment',
         foreign_keys='Comment.author_id',
-        backref='user', lazy='dynamic', order_by='Comment.created.desc()'
+        backref='user', lazy='dynamic', order_by='Comment.created.desc()', cascade="all, delete-orphan"
     )
 
     commentliked = db.relationship(
         'CommentLike',
         foreign_keys='CommentLike.user_id',
-        backref='user', lazy='dynamic'
+        backref='user', lazy='dynamic', cascade="all, delete-orphan"
     )
 
     followed = db.relationship('User',
@@ -212,3 +215,15 @@ class CommentLike(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+class AdminModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.email == 'admin@chirper.com'
+
+
+admin = Admin()
+
+admin.add_view(AdminModelView(User, db.session, endpoint='UserDB'))
+admin.add_view(AdminModelView(Post, db.session, endpoint='PostDB'))
+admin.add_view(AdminModelView(Comment, db.session, endpoint='CommentDB'))
