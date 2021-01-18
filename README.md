@@ -46,7 +46,7 @@ SQLALCHEMY_DATABASE_URI=postgresql://username:password@localhost/db_name
 ...
 ```
 
-If you don't want to, the default values are set for a development environment, it will use SQLite as the project database.
+If you don't want to, the default values are set for a development environment, it will use SQLite as the project database. (Just don't forget to rename/delete the migrations folder. Since inter-DBMS migrations are not possible as it stands. The included migrations are for PostgreSQL)
 
 To initialise the database run:
 ```
@@ -63,8 +63,6 @@ To get a better server:
 ```
 python serve.py
 ```
-
-As it stands currently there is no set way to host the app as a WSGI application. However it should not be hard to write one yourself.
 
 ### Using something other than PSQL
 If you want to use SQLite or any other RDBMS, you need to delete migrations folder and create the new migrations folder. Just make sure you have a driver for your RDBMS.
