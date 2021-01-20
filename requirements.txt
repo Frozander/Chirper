@@ -12,7 +12,7 @@ Flask_Minify==0.29
 Flask_SQLAlchemy==2.4.4
 Flask_WTF==0.14.3
 flask_nav==0.6
-Flask_Migrate==2.5.3
+Flask_Migrate==2.6.0
 gevent==21.1.1
 Pillow==8.1.0
 python-dotenv==0.15.0
