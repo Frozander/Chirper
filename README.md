@@ -9,7 +9,7 @@ You are free to add into it as long as it makes sense, see the [CONTRIBUTING.md]
 ## To see a working version of the project, check out [chirper.frozander.xyz](https://chirper.frozander.xyz)
 
 ## Caution
-At this current stage, there probably are multiple security problems and possible exploits with the application. So do not use it apart from developing it further or do and open an issue if you find a problem.
+At this current stage, there probably are multiple security problems and possible exploits with the application. So do not use it apart from developing it further or do if you dare...
 
 ## TODO
 Deployment to a WSGI environment is not straightforward, so I might need to fix that in the future. But with a bit of fumbling around it can be deployed without any problems.
