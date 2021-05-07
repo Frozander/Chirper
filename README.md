@@ -46,10 +46,11 @@ SQLALCHEMY_DATABASE_URI=postgresql://username:password@localhost/db_name
 ...
 ```
 
-If you don't want to, the default values are set for a development environment, it will use SQLite as the project database. (Just don't forget to rename/delete the migrations folder. Since inter-DBMS migrations are not possible as it stands. The included migrations are for PostgreSQL)
+**IMPORTANT:** If you don't want to, the default values are set for a development environment, it will use SQLite as the project database. (Just don't forget to rename/delete the migrations folder. Since inter-DBMS migrations are not possible as it stands. The included migrations are for PostgreSQL)
 
 To initialise the database run:
 ```
+flask db init
 flask db upgrade
 ```
 
