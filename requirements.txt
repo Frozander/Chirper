@@ -2,7 +2,7 @@ Flask_Obscure==1.0
 flask_talisman==0.7.0
 Flask_Bootstrap==3.3.7.1
 alembic==1.6.2
-Flask_Admin==1.5.7
+Flask_Admin==1.5.8
 Flask==1.1.2
 SQLAlchemy==1.4.14
 Werkzeug==1.0.1
