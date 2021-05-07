@@ -36,7 +36,7 @@ python -m pip install -r requirements.txt
 
 Create a ".env" file in the root of the repository and look into the [config.py](chirper/config.py) file. You can set the parameters there. Or even add more into the [config.py](chirper/config.py) if you want.
 
-.env:
+.env example:
 ```
 ...
 FLASK_APP=chirper
