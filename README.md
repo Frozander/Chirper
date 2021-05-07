@@ -58,12 +58,22 @@ You can start a dev server by running:
 ```
 flask run
 ```
-However in Chromium based browsers the neccesary cookies are not stored without a domain name (or a psuedo one like localhost). Which means you need ssl keys to run it even in development mode as it stands.
-
-To get a better server:
+However since almost any browser forces https connections you might need ssl key pairs.
+If you do, you can use:
 ```
 python serve.py
 ```
+to serve the app in best possible way.
+
+But if you don't, you can use ad-hoc certificates provided by flask (for development only ofc) by installing PyOpenSSL:
+```
+pip install pyopenssl
+```
+and then running the development server with:
+```
+flask run --cert=adhoc
+```
+
 
 ### Using something other than PSQL
 If you want to use SQLite or any other RDBMS, you need to delete migrations folder and create the new migrations folder. Just make sure you have a driver for your RDBMS.
