@@ -51,6 +51,7 @@ SQLALCHEMY_DATABASE_URI=postgresql://username:password@localhost/db_name
 To initialise the database run:
 ```
 flask db init
+flask db migrate
 flask db upgrade
 ```
 
