@@ -5,7 +5,7 @@ alembic==1.6.2
 Flask_Admin==1.5.7
 Flask==1.1.2
 SQLAlchemy==1.4.14
-Werkzeug==1.0.1
+Werkzeug==2.0.2
 Flask_Login==0.5.0
 WTForms==2.3.3
 Flask_Minify==0.32
