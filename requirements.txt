@@ -3,7 +3,7 @@ flask_talisman==0.7.0
 Flask_Bootstrap==3.3.7.1
 alembic==1.6.2
 Flask_Admin==1.5.7
-Flask==1.1.2
+Flask==2.0.3
 SQLAlchemy==1.4.14
 Werkzeug==1.0.1
 Flask_Login==0.5.0
