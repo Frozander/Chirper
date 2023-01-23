@@ -15,6 +15,6 @@ flask_nav==0.6
 Flask_Migrate==3.1.0
 gevent==21.1.2
 Pillow==8.1.2
-python-dotenv==0.17.1
+python-dotenv==0.21.1
 email-validator==1.1.2
 psycopg2==2.8.6
